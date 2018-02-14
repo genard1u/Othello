@@ -4,7 +4,6 @@
 package othello;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Collignon Valentin
@@ -15,12 +14,7 @@ public class EtatOthello extends Etat {
 
 	private final static int TAILLE=8;
 	
-	public enum Pion{
-		RIEN, BLANC, NOIR
-	};
-	
-	private Pion[][] plateau;	
-	
+	private Pion [][] plateau;
 	
 	/**
 	 * 
@@ -87,32 +81,4 @@ public class EtatOthello extends Etat {
 		return null;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder(100);
-		
-		for (int y = 0; y < plateau.length; y ++) {
-			sb.append("|");
-			
-			for (int x = 0; x < plateau[0].length; x ++) {
-				switch (plateau[y][x]) {
-				    case RIEN:
-				        sb.append(" |");
-				        break;
-				    case BLANC:
-				    	sb.append("B|");
-				        break;
-				    case NOIR:
-				    	sb.append("N|");
-				        break;
-				}
-			}
-			
-			sb.append("\n");
-		}
-		
-		return sb.toString();
-				
-	}
-	
 }
