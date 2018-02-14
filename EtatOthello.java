@@ -79,7 +79,7 @@ public class EtatOthello extends Etat {
 	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
-		
+
 		return successeur;
 	}
 	
@@ -95,6 +95,7 @@ public class EtatOthello extends Etat {
 				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
 					EtatOthello e = new EtatOthello(this);
 					e.setPlateau(x, y, ((JoueurOthello)j).getPion());
+					// mettre une fonction pour retourner les autre pion
 					successeurs.add(e);
 				}
 			}
