@@ -19,7 +19,7 @@ public abstract class Etat {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public abstract ArrayList<Etat> successeurs ();
+	public abstract ArrayList<Etat> successeurs(Joueur j);
 	
 	public boolean equals(Etat e){
 		return this.toString().equals(e.toString());

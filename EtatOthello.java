@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class EtatOthello extends Etat {
 
-	private final static int TAILLE=8;
+	private final static int T = 8;
 	
 	public enum Pion{
 		RIEN, BLANC, NOIR
@@ -26,67 +26,73 @@ public class EtatOthello extends Etat {
 	 * 
 	 */
 	public EtatOthello() {
-		// TODO Auto-generated constructor stub
-		plateau = new Pion[TAILLE][TAILLE];
-		for (int i= 0 ; i<TAILLE*TAILLE;i++){
-			int y = i/TAILLE;
-			int x = i%TAILLE;
+		plateau = new Pion[T][T];
+		
+		for (int i= 0 ; i<T*T;i++){
+			int y = i/T;
+			int x = i%T;
+			
 			plateau[y][x]= Pion.RIEN;
 		}
-		plateau[TAILLE/2][TAILLE/2]= Pion.BLANC;
-		plateau[TAILLE/2][(TAILLE/2)-1]= Pion.NOIR;
-		plateau[(TAILLE/2)-1][(TAILLE/2)-1]= Pion.BLANC;
-		plateau[(TAILLE/2)-1][TAILLE/2]= Pion.NOIR;
+		
+		plateau[T/2][T/2]= Pion.BLANC;
+		plateau[T/2][T/2-1]= Pion.NOIR;
+		plateau[T/2-1][T/2-1]= Pion.BLANC;
+		plateau[T/2-1][T/2]= Pion.NOIR;
 	}
 	
 	public EtatOthello(int t) {
-		// TODO Auto-generated constructor stub
 		plateau = new Pion[t][t];
+		
 		for (int i= 0 ; i<t*t;i++){
 			int y = i/t;
 			int x = i%t;
+			
 			plateau[y][x]= Pion.RIEN;
 		}
+		
 		plateau[t/2][t/2]= Pion.BLANC;
-		plateau[t/2][(t/2)-1]= Pion.NOIR;
-		plateau[(t/2)-1][(t/2)-1]= Pion.BLANC;
-		plateau[(t/2)-1][t/2]= Pion.NOIR;
+		plateau[t/2][t/2-1]= Pion.NOIR;
+		plateau[t/2-1][t/2-1]= Pion.BLANC;
+		plateau[t/2-1][t/2]= Pion.NOIR;
 	}
 	
 	
 	public EtatOthello(EtatOthello e) {
-		// TODO Auto-generated constructor stub
-		
 		plateau = e.getPlateau();
 	}
 	
-	public Pion [][] getPlateau(){
+	public Pion [][] getPlateau() {
 		int t = getTaille();
 		Pion [][] p = new Pion[t][t];
+		
 		for (int i= 0 ; i<t*t;i++){
 			int y = i/t;
 			int x = i%t;
 			p[y][x]= plateau[y][x];
 		}
+		
 		return p;
 	}
 	
-	public int getTaille(){
+	public int getTaille() {
 		return plateau.length;
 	}
 	
-	public void setPlateau(int x, int y, Pion p){
-		plateau[x][y]=p;
+	public void setPlateau(int x, int y, Pion p) {
+		plateau[x][y] = p;
 	}
+	
 	/* (non-Javadoc)
 	 * @see othello.Etat#successeurs()
 	 */
 	@Override
-	public ArrayList<Etat> successeurs() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Etat> successeurs(Joueur j) {
+		ArrayList<Etat> successeurs = new ArrayList<Etat>();
+		
+		return successeurs;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
@@ -113,6 +119,12 @@ public class EtatOthello extends Etat {
 		
 		return sb.toString();
 				
+	}
+	
+	public static void main(String[] args) {
+		Etat e = new EtatOthello();
+		
+		System.out.println(e.toString());
 	}
 	
 }
