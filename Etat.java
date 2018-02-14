@@ -4,7 +4,8 @@
 package othello;
 
 /**
- * @author collign57u
+ * @author Collignon Valentin
+ * @author Genard Pierre
  *
  */
 public abstract class Etat {
