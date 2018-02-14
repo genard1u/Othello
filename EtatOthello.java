@@ -4,7 +4,6 @@
 package othello;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * @author Collignon Valentin
@@ -15,12 +14,7 @@ public class EtatOthello extends Etat {
 
 	private final static int T = 8;
 	
-	public enum Pion{
-		RIEN, BLANC, NOIR
-	};
-	
-	private Pion[][] plateau;	
-	
+	private Pion [][] plateau;
 	
 	/**
 	 * 
