@@ -77,12 +77,28 @@ public class EtatOthello extends Etat {
 		plateau[x][y] = p;
 	}
 	
+	public boolean successeur(int x, int y, Pion p) {
+		boolean successeur = false;
+		
+		return successeur;
+	}
+	
 	/* (non-Javadoc)
 	 * @see othello.Etat#successeurs()
 	 */
 	@Override
 	public ArrayList<Etat> successeurs(Joueur j) {
 		ArrayList<Etat> successeurs = new ArrayList<Etat>();
+		
+		for (int y = 0; y < getTaille(); y ++) {
+			for (int x = 0; x < getTaille(); x ++) {
+				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
+					EtatOthello e = new EtatOthello(this);
+					e.setPlateau(x, y, ((JoueurOthello)j).getPion());
+					successeurs.add(e);
+				}
+			}
+		}
 		
 		return successeurs;
 	}

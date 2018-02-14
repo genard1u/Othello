@@ -7,13 +7,13 @@ package othello;
  * @author collign57u
  *
  */
-public class JoueurOhtello {
+public class JoueurOthello extends Joueur {
 
 	private Pion p;
 	/**
 	 * 
 	 */
-	public JoueurOhtello(Pion p) {
+	public JoueurOthello(Pion p) {
 		// TODO Auto-generated constructor stub
 		this.p=p;
 	}
