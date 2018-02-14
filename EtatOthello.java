@@ -12,11 +12,42 @@ import java.util.ArrayList;
  */
 public class EtatOthello extends Etat {
 
+	private final static int TAILLE=8;
+	
+	private Pion [][] plateau;
+	
+	public enum Pion{
+		RIEN, BLANC, NOIR
+	};
 	/**
 	 * 
 	 */
 	public EtatOthello() {
 		// TODO Auto-generated constructor stub
+		plateau = new Pion[TAILLE][TAILLE];
+		for (int i= 0 ; i<TAILLE*TAILLE;i++){
+			int y = i/TAILLE;
+			int x = i%TAILLE;
+			plateau[y][x]= Pion.RIEN;
+		}
+		plateau[TAILLE/2][TAILLE/2]= Pion.BLANC;
+		plateau[TAILLE/2][(TAILLE/2)-1]= Pion.NOIR;
+		plateau[(TAILLE/2)-1][(TAILLE/2)-1]= Pion.BLANC;
+		plateau[(TAILLE/2)-1][TAILLE/2]= Pion.NOIR;
+	}
+	
+	public EtatOthello(int t) {
+		// TODO Auto-generated constructor stub
+		plateau = new Pion[t][t];
+		for (int i= 0 ; i<t*t;i++){
+			int y = i/t;
+			int x = i%t;
+			plateau[y][x]= Pion.RIEN;
+		}
+		plateau[TAILLE/2][t/2]= Pion.BLANC;
+		plateau[TAILLE/2][(t/2)-1]= Pion.NOIR;
+		plateau[(TAILLE/2)-1][(t/2)-1]= Pion.BLANC;
+		plateau[(TAILLE/2)-1][TAILLE/2]= Pion.NOIR;
 	}
 
 	/* (non-Javadoc)
