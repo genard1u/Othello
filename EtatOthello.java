@@ -104,6 +104,7 @@ public class EtatOthello extends Etat {
 			for (int x = 0; x < getTaille(); x ++) {
 				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
 					EtatOthello e = new EtatOthello(this);
+					System.out.println("succ");
 					e.setPlateau(x, y, ((JoueurOthello)j).getPion());
 					e.retourner(x, y,((JoueurOthello)j).getPion());
 					successeurs.add(e);
