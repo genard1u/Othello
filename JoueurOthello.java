@@ -10,15 +10,13 @@ package othello;
 public class JoueurOthello extends Joueur {
 
 	private Pion p;
-	/**
-	 * 
-	 */
+	
+	
 	public JoueurOthello(Pion p) {
-		// TODO Auto-generated constructor stub
 		this.p=p;
 	}
 	
-	public Pion getPion(){
+	public Pion getPion() {
 		return p;
 	}
 

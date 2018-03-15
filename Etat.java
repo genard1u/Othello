@@ -12,11 +12,8 @@ import java.util.ArrayList;
  */
 public abstract class Etat {
 
-	/**
-	 * 
-	 */
 	public Etat() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public abstract ArrayList<Etat> successeurs(Joueur j);
@@ -25,6 +22,4 @@ public abstract class Etat {
 		return this.toString().equals(e.toString());
 	}
 	
-	
-
 }

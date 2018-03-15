@@ -12,65 +12,60 @@ import java.util.ArrayList;
  */
 public class EtatOthello extends Etat {
 
-	private final static int T = 8;
+	private final static int T_DEF = 8;
 	
-	private Pion [][] plateau;
+	private int T = T_DEF;	
+	private Pion[][] plateau;
 	
-	/**
-	 * 
-	 */
+	
 	public EtatOthello() {
 		plateau = new Pion[T][T];
-		
-		for (int i= 0 ; i<T*T;i++){
-			int y = i/T;
-			int x = i%T;
-			
-			plateau[y][x]= Pion.RIEN;
-		}
-		
-		plateau[T/2][T/2]= Pion.BLANC;
-		plateau[T/2][T/2-1]= Pion.NOIR;
-		plateau[T/2-1][T/2-1]= Pion.BLANC;
-		plateau[T/2-1][T/2]= Pion.NOIR;
+		plateauVide();
+		premiersPions();
 	}
 	
-	public EtatOthello(int t) {
-		plateau = new Pion[t][t];
-		
-		for (int i= 0 ; i<t*t;i++){
-			int y = i/t;
-			int x = i%t;
-			
-			plateau[y][x]= Pion.RIEN;
-		}
-		
-		plateau[t/2][t/2]= Pion.BLANC;
-		plateau[t/2][t/2-1]= Pion.NOIR;
-		plateau[t/2-1][t/2-1]= Pion.BLANC;
-		plateau[t/2-1][t/2]= Pion.NOIR;
+	public EtatOthello(int taille) {
+		T = taille;
+		plateau = new Pion[T][T];
+		plateauVide();
+		premiersPions();
 	}
-	
 	
 	public EtatOthello(EtatOthello e) {
 		plateau = e.getPlateau();
+		T = e.getTaille();
 	}
 	
-	public Pion [][] getPlateau() {
-		int t = getTaille();
-		Pion [][] p = new Pion[t][t];
+	private void plateauVide() {
+		for (int i = 0 ; i < T * T; i ++){
+			int y = i / T;
+			int x = i % T;
+			
+			plateau[y][x] = Pion.RIEN;
+		}
+	}
+	
+    private void premiersPions() {
+    	plateau[T/2][T/2] = Pion.BLANC;
+		plateau[T/2][T/2-1] = Pion.NOIR;
+		plateau[T/2-1][T/2-1] = Pion.BLANC;
+		plateau[T/2-1][T/2] = Pion.NOIR;
+	}
+
+	public Pion[][] getPlateau() {
+		Pion [][] p = new Pion[T][T];
 		
-		for (int i= 0 ; i<t*t;i++){
-			int y = i/t;
-			int x = i%t;
-			p[y][x]= plateau[y][x];
+		for (int i = 0 ; i < T * T; i ++){
+			int y = i / T;
+			int x = i % T;
+			p[y][x] = plateau[y][x];
 		}
 		
 		return p;
 	}
 	
 	public int getTaille() {
-		return plateau.length;
+		return T;
 	}
 	
 	public void setPlateau(int x, int y, Pion p) {
@@ -127,8 +122,7 @@ public class EtatOthello extends Etat {
 			sb.append("\n");
 		}
 		
-		return sb.toString();
-				
+		return sb.toString();		
 	}
 	
 	public static void main(String[] args) {
