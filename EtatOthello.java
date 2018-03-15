@@ -105,7 +105,7 @@ public class EtatOthello extends Etat {
 				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
 					EtatOthello e = new EtatOthello(this);
 					e.setPlateau(x, y, ((JoueurOthello)j).getPion());
-					e.retourner(x,y,((JoueurOthello)j).getPion());
+					e.retourner(x, y,((JoueurOthello)j).getPion());
 					successeurs.add(e);
 				}
 			}
@@ -167,9 +167,14 @@ public class EtatOthello extends Etat {
 	}
 	
 	public static void main(String[] args) {
-		Etat e = new EtatOthello();
+		EtatOthello test = new EtatOthello();
+		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
+		ArrayList<Etat> succ = test.successeurs(j0);
 		
-		System.out.println(e.toString());
+		System.out.println(test);
+		
+		assert test.successeur(2, 3, j0.getPion());
+		assert succ.size() > 0;
 	}
 	
 }
