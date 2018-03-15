@@ -74,7 +74,22 @@ public class EtatOthello extends Etat {
 	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
-		
+		for(int i=-1;i<2;i++){
+			for (int j=-1;j<2;j++){
+				if((i==-1 && x!=0) && (j==-1 && y!=0) && (i==1 && x!=T-1) && (j==1 && y!=T-1)){
+					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+						int cx=x+i,cy=y+j;
+						while(((i==-1 && cx!=0) && (j==-1 && cy!=0) && (i==1 && cx!=T-1) && (j==1 && cy!=T-1)) && (plateau[cx+i][cy+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN)){
+							 cx=cx+i;
+							 cy=cy+j;
+						}
+						if(((cx>=0) && (cy>=0) && (cx<T) && (cy<T)) &&plateau[cx][cy]==p){
+							successeur=true;
+						}
+					}
+				}
+			}
+		}
 		return successeur;
 	}
 	
@@ -90,6 +105,7 @@ public class EtatOthello extends Etat {
 				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
 					EtatOthello e = new EtatOthello(this);
 					e.setPlateau(x, y, ((JoueurOthello)j).getPion());
+					e.retourner(x,y,((JoueurOthello)j).getPion());
 					successeurs.add(e);
 				}
 			}
@@ -98,6 +114,31 @@ public class EtatOthello extends Etat {
 		return successeurs;
 	}
 	
+	private void retourner(int x, int y, Pion p) {
+		// TODO Auto-generated method stub
+		for(int i=-1;i<2;i++){
+			for (int j=-1;j<2;j++){
+				if((i==-1 && x!=0) && (j==-1 && y!=0) && (i==1 && x!=T-1) && (j==1 && y!=T-1)){
+					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+						int cx=x+i,cy=y+j;
+						while(((i==-1 && cx!=0) && (j==-1 && cy!=0) && (i==1 && cx!=T-1) && (j==1 && cy!=T-1)) && (plateau[cx+i][cy+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN)){
+							 cx=cx+i;
+							 cy=cy+j;
+						}
+						if(((cx>=0) && (cy>=0) && (cx<T) && (cy<T)) &&plateau[cx][cy]==p){
+							while(((i==-1 && cx!=0) && (j==-1 && cy!=0) && (i==1 && cx!=T-1) && (j==1 && cy!=T-1)) && (plateau[cx+i][cy+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN)){
+								 cx=cx-i;
+								 cy=cy-j;
+								 
+								 setPlateau(cx, cy,p);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
