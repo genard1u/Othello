@@ -75,16 +75,16 @@ public class EtatOthello extends Etat {
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){
-			for (int j=-1;j<2;j++){
-				if(verifBord(x, y)){
-					
-					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
-						System.out.println("succ2");
-						int cx=x+i,cy=y+j;
-						int[]r = verifOuRetourn(0,cx,cy,i,j,p);
-						if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
-							successeur=true;
-						}
+			for (int j=-1;j<2;j++){		
+				if (verifBord(x, y)&&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+
+					System.out.println(x+" "+y);
+					int cx=x+i,cy=y+j;
+					int[]r = verifOuRetourn(0,cx,cy,i,j,p);
+					System.out.println("\t"+r[0]+" "+r[1]);
+					if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
+						System.out.println("succ3");
+						successeur=true;
 					}
 				}
 			}
@@ -121,7 +121,6 @@ public class EtatOthello extends Etat {
 				if(verifBord(x, y)){
 					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
 						int cx=x+i,cy=y+j;
-						
 						verifOuRetourn(0,cx,cy,i,j,p);
 						if(((cx>=0) && (cy>=0) && (cx<T) && (cy<T)) &&plateau[cx][cy]==p){
 							
@@ -137,25 +136,26 @@ public class EtatOthello extends Etat {
 	public int[] verifOuRetourn(int mode , int x, int y, int i,int j,Pion p){
 		int[] res= new int[2];
 		int cx=x,cy=y;
-
-		while(verifBord(cx, cy) && (plateau[cx+i][cy+j]!= p &&plateau[cx+i][cy+j]!= Pion.RIEN)){
-			System.out.println("succ3");
-			switch (mode) {
-			case 0:
-				cx=cx+i;
-				cy=cy+j;
-				break;
-			case 1:
-				cx=cx-i;
-				cy=cy-j;
-				setPlateau(cx, cy,p);
-				break;
-			default:
-				break;
+		if(i!=0||j!=i){
+			while(verifBord(cx, cy) && (plateau[cx+i][cy+j]!= p && plateau[cx+i][cy+j]!= Pion.RIEN)){
+				
+				switch (mode) {
+				case 0:
+					cx=cx+i;
+					cy=cy+j;
+					break;
+				case 1:
+					cx=cx-i;
+					cy=cy-j;
+					setPlateau(cx, cy,p);
+					break;
+				default:
+					break;
+				}
 			}
 		}
-		res[0]=cx;
-		res[1]=cy;
+		res[0]=cx+i;
+		res[1]=cy+j;
 		return res;
 	}
 	public boolean verifBord(int x,int y){
