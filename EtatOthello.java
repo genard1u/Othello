@@ -76,10 +76,10 @@ public class EtatOthello extends Etat {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){
-				System.out.println("succ3");
-				if(verifBord(i, j, x, y)){
-					System.out.println("succ2");
+				if(verifBord(x, y)){
+					
 					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+						System.out.println("succ2");
 						int cx=x+i,cy=y+j;
 						int[]r = verifOuRetourn(0,cx,cy,i,j,p);
 						if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
@@ -118,7 +118,7 @@ public class EtatOthello extends Etat {
 		// TODO Auto-generated method stub
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){
-				if(verifBord(i, j, x, y)){
+				if(verifBord(x, y)){
 					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
 						int cx=x+i,cy=y+j;
 						
@@ -138,7 +138,8 @@ public class EtatOthello extends Etat {
 		int[] res= new int[2];
 		int cx=x,cy=y;
 
-		while(verifBord(i, j, cx, cy) && (plateau[cx+i][cy+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN)){
+		while(verifBord(cx, cy) && (plateau[cx+i][cy+j]!= p &&plateau[cx+i][cy+j]!= Pion.RIEN)){
+			System.out.println("succ3");
 			switch (mode) {
 			case 0:
 				cx=cx+i;
@@ -157,21 +158,21 @@ public class EtatOthello extends Etat {
 		res[1]=cy;
 		return res;
 	}
-	public boolean verifBord(int i,int j,int x,int y){
-		return(verifBordGauche(i, x) && verifBordHaut(j, y) && verifBordDroit(i, x) && verifBordBas(j, y));
+	public boolean verifBord(int x,int y){
+		return(verifBordGauche(x) && verifBordHaut(y) && verifBordDroit(x) && verifBordBas(y));
 	}
 	
-	public boolean verifBordGauche(int i,int x){
-		return(i==-1 && x!=0);
+	public boolean verifBordGauche(int x){
+		return(x>0);
 	}
-	public boolean verifBordDroit(int i,int x){
-		return(i==1 && x!=T-1);
+	public boolean verifBordDroit(int x){
+		return(x<T-1);
 	}
-	public boolean verifBordHaut(int j,int y){
-		return(j==-1 && y!=0);
+	public boolean verifBordHaut(int y){
+		return(y>0);
 	}
-	public boolean verifBordBas(int j,int y){
-		return(j==1 && y!=T-1);
+	public boolean verifBordBas(int y){
+		return(y<T-1);
 	}
 
 	@Override
@@ -206,8 +207,11 @@ public class EtatOthello extends Etat {
 		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
 		ArrayList<Etat> succ = test.successeurs(j0);
 		
-		System.out.println(test);
-		
+		System.out.println(test.toString());
+		for(Etat e :succ)
+		{
+			System.out.println(e.toString());
+		}
 		assert test.successeur(2, 3, j0.getPion());
 		assert succ.size() > 0;
 	}
