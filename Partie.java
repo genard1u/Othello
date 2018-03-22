@@ -10,5 +10,12 @@ public abstract class Partie {
 	protected Joueur joueurCourant;
 	
 	
+	protected Partie() {}
+	
+	public Partie(Joueur un, Joueur deux) {
+		j1 = un;
+		j2 = deux;
+	}
+	
 	protected abstract boolean estTerminee();
 }

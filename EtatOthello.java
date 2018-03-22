@@ -1,6 +1,3 @@
-/**
- * 
- */
 package othello;
 
 import java.util.ArrayList;
@@ -8,7 +5,6 @@ import java.util.ArrayList;
 /**
  * @author Collignon Valentin
  * @author Genard Pierre
- *
  */
 public class EtatOthello extends Etat {
 
@@ -20,7 +16,6 @@ public class EtatOthello extends Etat {
 	
 	public EtatOthello() {
 		plateau = new Pion[T][T];
-		casesVides = T * T;
 		plateauVide();
 		premiersPions();
 	}
@@ -28,7 +23,6 @@ public class EtatOthello extends Etat {
 	public EtatOthello(int taille) {
 		T = taille;
 		plateau = new Pion[T][T];
-		casesVides = T * T;
 		plateauVide();
 		premiersPions();
 	}
@@ -36,7 +30,6 @@ public class EtatOthello extends Etat {
 	public EtatOthello(EtatOthello e) {
 		plateau = e.getPlateau();
 		T = e.getTaille();
-		casesVides = e.nbCasesVides();
 	}
 	
 	private void plateauVide() {
@@ -71,13 +64,8 @@ public class EtatOthello extends Etat {
 		return T;
 	}
 	
-	public int nbCasesVides() {
-		return casesVides;
-	}
-	
 	public void setPion(int x, int y, Pion p) {
 		plateau[x][y] = p;
-		casesVides --;
 	}
 	
 	public boolean successeur(int x, int y, Pion p) {

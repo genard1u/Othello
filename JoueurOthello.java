@@ -11,6 +11,10 @@ public class JoueurOthello extends Joueur {
 	private Pion p;
 	
 	
+	public JoueurOthello() {
+		p = null;
+	}
+	
 	public JoueurOthello(Pion p) {
 		this.p = p;
 	}
@@ -19,4 +23,8 @@ public class JoueurOthello extends Joueur {
 		return p;
 	}
 
+	public void setPion(Pion p) {
+		this.p = p;
+	}
+	
 }
