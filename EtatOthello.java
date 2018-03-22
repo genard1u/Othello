@@ -18,8 +18,6 @@ public class EtatOthello extends Etat {
 	private Pion[][] plateau;
 	
 	
-	
-	
 	public EtatOthello() {
 		plateau = new Pion[T][T];
 		casesVides = T * T;
@@ -46,7 +44,7 @@ public class EtatOthello extends Etat {
 			int y = i / T;
 			int x = i % T;
 			
-			plateau[y][x] = Pion.RIEN;
+			plateau[x][y] = Pion.RIEN;
 		}
 	}
 	
@@ -63,7 +61,7 @@ public class EtatOthello extends Etat {
 		for (int i = 0 ; i < T * T; i ++){
 			int y = i / T;
 			int x = i % T;
-			p[y][x] = plateau[y][x];
+			p[x][y] = plateau[x][y];
 		}
 		
 		return p;
@@ -78,12 +76,8 @@ public class EtatOthello extends Etat {
 	}
 	
 	public void setPion(int x, int y, Pion p) {
-<<<<<<< HEAD
-		plateau[y][x] = p;
-		casesVides --;
-=======
 		plateau[x][y] = p;
->>>>>>> 9df19f7b268f54823c88cf76e04363d70dc5de93
+		casesVides --;
 	}
 	
 	public boolean successeur(int x, int y, Pion p) {
@@ -227,17 +221,15 @@ public class EtatOthello extends Etat {
 		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
 		JoueurOthello j1 = new JoueurOthello(Pion.BLANC);
 		
-<<<<<<< HEAD
 		test.setPion(2, 1, Pion.NOIR);
 		test.setPion(1, 1, Pion.BLANC);
-		
-=======
 		test.setPion(2, 0, Pion.NOIR);
 		test.setPion(1, 0, Pion.BLANC);
 		test.setPion(3, 4, Pion.BLANC);
 		test.setPion(4, 5, Pion.NOIR);
+		
 		System.out.println(test.toString());
->>>>>>> 9df19f7b268f54823c88cf76e04363d70dc5de93
+		
 		ArrayList<Etat> succ = test.successeurs(j0);
 		
 		for (Etat e :succ) {
