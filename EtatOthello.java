@@ -119,7 +119,7 @@ public class EtatOthello extends Etat {
 		return successeurs;
 	}
 	
-	private void retourner(int x, int y, Pion p) {
+	public void retourner(int x, int y, Pion p) {
 		// TODO Auto-generated method stub
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){
@@ -192,9 +192,13 @@ public class EtatOthello extends Etat {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
-		
+		sb.append("   ");
 		for (int y = 0; y < plateau.length; y ++) {
-			sb.append("|");
+			sb.append(y + " ");
+		}
+		sb.append("\n");
+		for (int y = 0; y < plateau.length; y ++) {
+			sb.append(y+" |");
 			
 			for (int x = 0; x < plateau[0].length; x ++) {
 				switch (plateau[y][x]) {
