@@ -69,17 +69,17 @@ public class EtatOthello extends Etat {
 	}
 	
 	public void setPion(int x, int y, Pion p) {
-		plateau[y][x] = p;
+		plateau[x][y] = p;
 	}
 	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){		
-				if (verifBord(x, y)&&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+				if (verifBord(x+i, y+j)&&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
 					int cx=x+i,cy=y+j;
 					int[]r = verifOuRetourn(0,cx,cy,i,j,p);
-					if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
+					if(verifBord(r[0] ,r[1]) &&plateau[r[0]][r[1]]==p){
 						successeur=true;
 					}
 				}
@@ -97,12 +97,13 @@ public class EtatOthello extends Etat {
 		
 		for (int y = 0; y < getTaille(); y ++) {
 			for (int x = 0; x < getTaille(); x ++) {
-				if (successeur(x, y, ((JoueurOthello)j).getPion())) {
-					EtatOthello e = new EtatOthello(this);
-					System.out.println("succ");
-					e.setPion(x, y, ((JoueurOthello)j).getPion());
-					e.retourner(x, y,((JoueurOthello)j).getPion());
-					successeurs.add(e);
+				if (plateau[x][y]== Pion.RIEN){
+					if (successeur(x, y, ((JoueurOthello)j).getPion())) {
+						EtatOthello e = new EtatOthello(this);
+						e.setPion(x, y, ((JoueurOthello)j).getPion());
+						e.retourner(x, y,((JoueurOthello)j).getPion());
+						successeurs.add(e);
+					}
 				}
 			}
 		}
@@ -115,13 +116,12 @@ public class EtatOthello extends Etat {
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){
 				if(verifBord(x, y)){
-					if (plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+					if (verifBord(x+i, y+j) &&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
 						int cx=x+i,cy=y+j;
 						int[] r=verifOuRetourn(0,cx,cy,i,j,p);
 
 						
 						if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
-							System.out.println("suuc1");
 							 r=verifOuRetourn(1,r[0],r[1],i,j,p);
 
 						}
@@ -141,7 +141,6 @@ public class EtatOthello extends Etat {
 		}
 		if(i!=0||j!=i){
 			while(verifBord(cx, cy) && (plateau[cx][cy]!= p && plateau[cx][cy]!= Pion.RIEN)){
-				System.out.println("suuc2");
 				switch (mode) {
 				case 0:
 					cx=cx+i;
@@ -166,16 +165,16 @@ public class EtatOthello extends Etat {
 	}
 	
 	public boolean verifBordGauche(int x){
-		return(x>0);
+		return(x>=0);
 	}
 	public boolean verifBordDroit(int x){
-		return(x<T-1);
+		return(x<=T-1);
 	}
 	public boolean verifBordHaut(int y){
-		return(y>0);
+		return(y>=0);
 	}
 	public boolean verifBordBas(int y){
-		return(y<T-1);
+		return(y<=T-1);
 	}
 
 	@Override
@@ -212,7 +211,9 @@ public class EtatOthello extends Etat {
 		
 		test.setPion(2, 0, Pion.NOIR);
 		test.setPion(1, 0, Pion.BLANC);
-		
+		test.setPion(3, 4, Pion.BLANC);
+		test.setPion(4, 5, Pion.NOIR);
+		System.out.println(test.toString());
 		ArrayList<Etat> succ = test.successeurs(j0);
 		
 		for(Etat e :succ)
