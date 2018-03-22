@@ -18,4 +18,12 @@ public abstract class Partie {
 	}
 	
 	protected abstract boolean estTerminee();
+	protected Joueur jeu(){
+		while (!estTerminee()){
+			tour();
+		}
+		return getGagnant();
+	}
+	protected abstract void tour();
+	protected abstract Joueur getGagnant();
 }
