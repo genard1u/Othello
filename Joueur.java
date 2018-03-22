@@ -2,10 +2,15 @@ package othello;
 
 public abstract class Joueur {
 	
-	private int nbPartiesGagnees;
+	protected int partiesGagnees;
+	
 	
 	public Joueur() {
-		nbPartiesGagnees=0;
+		partiesGagnees = 0;
 	}
 
+	public int partiesGagnees() {
+		return partiesGagnees;
+	}
+	
 }

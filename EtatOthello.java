@@ -18,8 +18,11 @@ public class EtatOthello extends Etat {
 	private Pion[][] plateau;
 	
 	
+	
+	
 	public EtatOthello() {
 		plateau = new Pion[T][T];
+		casesVides = T * T;
 		plateauVide();
 		premiersPions();
 	}
@@ -27,6 +30,7 @@ public class EtatOthello extends Etat {
 	public EtatOthello(int taille) {
 		T = taille;
 		plateau = new Pion[T][T];
+		casesVides = T * T;
 		plateauVide();
 		premiersPions();
 	}
@@ -34,6 +38,7 @@ public class EtatOthello extends Etat {
 	public EtatOthello(EtatOthello e) {
 		plateau = e.getPlateau();
 		T = e.getTaille();
+		casesVides = e.nbCasesVides();
 	}
 	
 	private void plateauVide() {
@@ -46,14 +51,14 @@ public class EtatOthello extends Etat {
 	}
 	
     private void premiersPions() {
-    	plateau[T/2][T/2] = Pion.BLANC;
-		plateau[T/2][T/2-1] = Pion.NOIR;
-		plateau[T/2-1][T/2-1] = Pion.BLANC;
-		plateau[T/2-1][T/2] = Pion.NOIR;
+    	setPion(T/2, T/2, Pion.BLANC);
+    	setPion(T/2-1, T/2, Pion.NOIR);
+    	setPion(T/2-1, T/2-1, Pion.BLANC);
+    	setPion(T/2, T/2-1, Pion.NOIR);
 	}
 
 	public Pion[][] getPlateau() {
-		Pion [][] p = new Pion[T][T];
+		Pion[][] p = new Pion[T][T];
 		
 		for (int i = 0 ; i < T * T; i ++){
 			int y = i / T;
@@ -68,8 +73,13 @@ public class EtatOthello extends Etat {
 		return T;
 	}
 	
+	public int nbCasesVides() {
+		return casesVides;
+	}
+	
 	public void setPion(int x, int y, Pion p) {
 		plateau[y][x] = p;
+		casesVides --;
 	}
 	
 	public boolean successeur(int x, int y, Pion p) {
@@ -161,6 +171,7 @@ public class EtatOthello extends Etat {
 		res[1]=cy;
 		return res;
 	}
+	
 	public boolean verifBord(int x,int y){
 		return(verifBordGauche(x) && verifBordHaut(y) && verifBordDroit(x) && verifBordBas(y));
 	}
@@ -168,12 +179,15 @@ public class EtatOthello extends Etat {
 	public boolean verifBordGauche(int x){
 		return(x>0);
 	}
+	
 	public boolean verifBordDroit(int x){
 		return(x<T-1);
 	}
+	
 	public boolean verifBordHaut(int y){
 		return(y>0);
 	}
+	
 	public boolean verifBordBas(int y){
 		return(y<T-1);
 	}
@@ -210,13 +224,12 @@ public class EtatOthello extends Etat {
 		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
 		JoueurOthello j1 = new JoueurOthello(Pion.BLANC);
 		
-		test.setPion(2, 0, Pion.NOIR);
-		test.setPion(1, 0, Pion.BLANC);
+		test.setPion(2, 1, Pion.NOIR);
+		test.setPion(1, 1, Pion.BLANC);
 		
 		ArrayList<Etat> succ = test.successeurs(j0);
 		
-		for(Etat e :succ)
-		{
+		for (Etat e :succ) {
 			System.out.println(e.toString());
 		}
 		

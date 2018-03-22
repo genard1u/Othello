@@ -5,7 +5,6 @@ package othello;
 
 /**
  * @author collign57u
- *
  */
 public class JoueurOthello extends Joueur {
 
@@ -13,7 +12,7 @@ public class JoueurOthello extends Joueur {
 	
 	
 	public JoueurOthello(Pion p) {
-		this.p=p;
+		this.p = p;
 	}
 	
 	public Pion getPion() {
