@@ -21,4 +21,8 @@ public abstract class Etat {
 		return this.toString().equals(e.toString());
 	}
 	
+	public abstract int eval0();
+
+	
+	
 }

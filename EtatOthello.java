@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class EtatOthello extends Etat {
 
-	private final static int T_DEF = 8;
+	private final static int T_DEF = 4;
 	
 	private int T = T_DEF;	
 	private Pion[][] plateau;
@@ -208,6 +208,35 @@ public class EtatOthello extends Etat {
 		return sb.toString();		
 	}
 	
+
+	public int nbJeton(Pion pion) {
+		int cmp=0;
+		for (int i =0;i<T;i++){
+			for(int j = 0 ; j < T ; j++){
+				if (plateau[i][j]==pion){
+					cmp++;
+				}
+			}
+		}
+		return cmp;
+		
+	}
+	
+	public int eval0(){
+		// TODO 
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
 		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
@@ -231,5 +260,14 @@ public class EtatOthello extends Etat {
 		assert test.successeur(2, 3, j0.getPion());
 		assert succ.size() > 0;
 	}
-	
+
+	public boolean estVide(int x, int y) {
+		// TODO Auto-generated method stub
+		if (x>=0 && x<T && y>=0 && y<T){
+			return plateau[x][y]== Pion.RIEN;
+		}else{
+			return false;
+		}
+	}
+
 }

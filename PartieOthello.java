@@ -1,5 +1,6 @@
 package othello;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -10,6 +11,7 @@ public class PartieOthello extends Partie {
 	
 	public PartieOthello(Joueur un, Joueur deux) {
 		super(un, deux);
+		etat= new EtatOthello();
 		((JoueurOthello) j1).setPion(Pion.NOIR);
 		((JoueurOthello) j2).setPion(Pion.BLANC);
 		joueurCourant = j1;
@@ -31,16 +33,17 @@ public class PartieOthello extends Partie {
 	
 
 	protected void tour(){
-		if( etat.successeurs(joueurCourant).size()>0){
-			// metre passer son tour a 0
-			System.out.println(etat.toString());
+		System.out.println(etat.toString());
+		if( ((EtatOthello)etat).successeurs(joueurCourant).size()>0){
+			passeSonTour=0;
+			
 			int x=-1,y=-1;
 			Scanner sc = new Scanner(System.in);
 			System.out.println("entrer votre numero de ligne");
 			x = sc.nextInt();
 			System.out.println("entrer votre numero de colonne");
 			y = sc.nextInt();
-			while (!((EtatOthello)etat).successeur(x, y, ((JoueurOthello)joueurCourant).getPion())) {
+			while (!((EtatOthello)etat).estVide(x,y)|| (!((EtatOthello)etat).successeur(x, y, ((JoueurOthello)joueurCourant).getPion()))) {
 				System.out.println("coordonnée invalide!");
 				System.out.println("entrer votre numero de ligne");
 				x = sc.nextInt();
@@ -49,14 +52,18 @@ public class PartieOthello extends Partie {
 			}
 			((EtatOthello)etat).setPion(x, y, ((JoueurOthello)joueurCourant).getPion());
 			((EtatOthello)etat).retourner(x, y,((JoueurOthello)joueurCourant).getPion());
-			
+			System.out.println(etat.toString());
 			
 		}else{
-			//passer un tour
+			passeSonTour++ ;
 			System.out.println("Vous ne pouvez pas plaser de pion !! ");
 		}
-		
-		joueurSuivant();
+		if (!estTerminee()){
+			joueurSuivant();
+		}else {
+			System.out.println("Partie fini !!!");
+			System.out.println("le gagnant est :"+getGagnant());
+		}
 		
 	}
 	
@@ -72,7 +79,14 @@ public class PartieOthello extends Partie {
 
 
 	protected Joueur getGagnant(){
-		return j1;
+		int cmpJetonJ1 = 0 , cmpJetonJ2 = 0;
+	    cmpJetonJ1 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j1).getPion());
+	    cmpJetonJ2 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j2).getPion());
+		if (cmpJetonJ1 < cmpJetonJ2){
+			return j2;
+		}else{
+			return j1;
+		}
 	}
 	
 	public static void main(String[] args) {
