@@ -19,4 +19,6 @@ public abstract class Etat {
 		return toString().equals(e.toString());
 	}
 	
+	public abstract int eval0();
+	
 }

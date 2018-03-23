@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class EtatOthello extends Etat {
 
-	private final static int T_DEF = 8;
+	private final static int T_DEF = 4;
 	
 	private int T = T_DEF;	
 	private Pion[][] plateau;
@@ -72,10 +72,10 @@ public class EtatOthello extends Etat {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){
 			for (int j=-1;j<2;j++){		
-				if (verifBord(x+i, y+j)&&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
+				if (verifBord(x+i, y+j) && plateau[x+i][y+j]!= p && plateau[x+i][y+j]!= Pion.RIEN){
 					int cx=x+i,cy=y+j;
-					int[]r = verifOuRetourn(0,cx,cy,i,j,p);
-					if(verifBord(r[0] ,r[1]) &&plateau[r[0]][r[1]]==p){
+					int[] r = verifOuRetourn(0,cx,cy,i,j,p);
+					if (verifBord(r[0] ,r[1]) && plateau[r[0]][r[1]]==p){
 						successeur=true;
 					}
 				}
@@ -212,6 +212,33 @@ public class EtatOthello extends Etat {
 		return sb.toString();		
 	}
 	
+	public boolean estVide(int x, int y) {
+		if (x>=0 && x<T && y>=0 && y<T){
+			return plateau[x][y] == Pion.RIEN;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public int nbJeton(Pion couleur) {
+		int cmp = 0;
+		
+		for (int i = 0; i < T; i ++){
+			for (int j = 0; j < T; j++){
+				if (plateau[i][j] == couleur) {
+					cmp++;
+				}
+			}
+		}
+		
+		return cmp;
+	}
+	
+	public int eval0() {
+		return 0;
+	}
+	
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
 		JoueurOthello j0 = new JoueurOthello("j1", Pion.NOIR);
@@ -235,5 +262,5 @@ public class EtatOthello extends Etat {
 		assert test.successeur(2, 3, j0.couleur());
 		assert succ.size() > 0;
 	}
-	
+
 }
