@@ -8,19 +8,25 @@ public abstract class Jeu {
 	protected Partie partieCourante;
 	
 	
-	public abstract boolean continuer();
+	protected abstract boolean continuer();
 	public abstract void lancer();
 	
-	public String recupererScore() {
+	protected String score() {
 		StringBuilder score = new StringBuilder();
 		
-		score.append("Joueur j1 : ");
+		score.append("Joueur " + j1.nomJoueur());
+		score.append(" : ");
 		score.append(j1.partiesGagnees());
 		score.append("\t");
-		score.append("Joueur j2 : ");
+		score.append("Joueur " + j2.nomJoueur());
+		score.append(" : ");
 		score.append(j2.partiesGagnees());
 		
 		return score.toString();
+	}
+	
+	protected void afficherScore() {
+		System.out.println(score());
 	}
 	
 }

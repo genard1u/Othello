@@ -94,10 +94,10 @@ public class EtatOthello extends Etat {
 		for (int y = 0; y < getTaille(); y ++) {
 			for (int x = 0; x < getTaille(); x ++) {
 				if (plateau[x][y]== Pion.RIEN){
-					if (successeur(x, y, ((JoueurOthello)j).getPion())) {
+					if (successeur(x, y, ((JoueurOthello)j).couleur())) {
 						EtatOthello e = new EtatOthello(this);
-						e.setPion(x, y, ((JoueurOthello)j).getPion());
-						e.retourner(x, y,((JoueurOthello)j).getPion());
+						e.setPion(x, y, ((JoueurOthello)j).couleur());
+						e.retourner(x, y,((JoueurOthello)j).couleur());
 						successeurs.add(e);
 					}
 				}
@@ -180,13 +180,17 @@ public class EtatOthello extends Etat {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
+		
 		sb.append("   ");
+		
 		for (int y = 0; y < plateau.length; y ++) {
 			sb.append(y + " ");
 		}
+		
 		sb.append("\n");
+		
 		for (int y = 0; y < plateau.length; y ++) {
-			sb.append(y+" |");
+			sb.append(y + " |");
 			
 			for (int x = 0; x < plateau[0].length; x ++) {
 				switch (plateau[y][x]) {
@@ -210,8 +214,8 @@ public class EtatOthello extends Etat {
 	
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
-		JoueurOthello j0 = new JoueurOthello(Pion.NOIR);
-		JoueurOthello j1 = new JoueurOthello(Pion.BLANC);
+		JoueurOthello j0 = new JoueurOthello("j1", Pion.NOIR);
+		JoueurOthello j1 = new JoueurOthello("j2", Pion.BLANC);
 		
 		test.setPion(2, 1, Pion.NOIR);
 		test.setPion(1, 1, Pion.BLANC);
@@ -228,7 +232,7 @@ public class EtatOthello extends Etat {
 			System.out.println(e.toString());
 		}
 		
-		assert test.successeur(2, 3, j0.getPion());
+		assert test.successeur(2, 3, j0.couleur());
 		assert succ.size() > 0;
 	}
 	

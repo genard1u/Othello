@@ -17,13 +17,19 @@ public abstract class Partie {
 		j2 = deux;
 	}
 	
+	protected abstract void allerSurUnSuccesseur();
+	protected abstract void aucunSuccesseur();
 	protected abstract boolean estTerminee();
-	protected Joueur jeu(){
-		while (!estTerminee()){
+	
+	public Joueur lancer() {
+		while (!estTerminee()) {
 			tour();
 		}
+		
 		return getGagnant();
 	}
+	
 	protected abstract void tour();
 	protected abstract Joueur getGagnant();
+	
 }

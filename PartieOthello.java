@@ -1,9 +1,15 @@
 package othello;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class PartieOthello extends Partie {
+	
+	private final static String LIGNE = "Entrez votre numéro de ligne : ";
+	private final static String COLONNE = "Entrez votre numéro de colonne : ";
+	private final static String COORDS_INVALIDES = "Coordonnées invalides !";
+	private final static String AU_SUIVANT = "Au joueur suivant !";
+	private final static String AUCUN_SUCCESSEUR = "Vous ne pouvez plus placer de pion !";
 	
 	private int passeSonTour;
 	
@@ -13,6 +19,7 @@ public class PartieOthello extends Partie {
 		((JoueurOthello) j1).setPion(Pion.NOIR);
 		((JoueurOthello) j2).setPion(Pion.BLANC);
 		joueurCourant = j1;
+		passeSonTour = 0;
 	}
 	
 	public boolean joueursBloques() {
@@ -20,65 +27,83 @@ public class PartieOthello extends Partie {
 	}
 	
 	public boolean estTerminee() {
-		boolean estGagnee = false;
+		boolean estTerminee = false;
 		
 		if (joueursBloques()) {
-			estGagnee = true;
+			estTerminee = true;
 		}
 		
-		return estGagnee;
+		return estTerminee;
 	}
 	
+    private int[] entrerCoords() {
+		Scanner sc = new Scanner(System.in);
+		int[] coords = new int[2];
+		
+		System.out.println(LIGNE);
+		coords[0] = sc.nextInt();
+		
+		System.out.println(COLONNE);
+		coords[1] = sc.nextInt();
+		
+		sc.close();
+		
+		return coords;
+    }
+    
+    @Override
+    protected void allerSurUnSuccesseur() {
+    	passeSonTour = 0;
+		System.out.println(etat.toString());
+		
+		Pion couleur = ((JoueurOthello) joueurCourant).couleur();
+		int[] coords = entrerCoords();
+		int x = coords[0];
+		int y = coords[1];
+		
+		while (!((EtatOthello) etat).successeur(x, y, couleur)) {
+			System.out.println(COORDS_INVALIDES);
+			coords = entrerCoords();
+			x = coords[0];
+			y = coords[1];
+		}
+		
+		((EtatOthello) etat).setPion(x, y, couleur);
+		((EtatOthello) etat).retourner(x, y,couleur);
+	}
 
-	protected void tour(){
-		if( etat.successeurs(joueurCourant).size()>0){
-			// metre passer son tour a 0
-			System.out.println(etat.toString());
-			int x=-1,y=-1;
-			Scanner sc = new Scanner(System.in);
-			System.out.println("entrer votre numero de ligne");
-			x = sc.nextInt();
-			System.out.println("entrer votre numero de colonne");
-			y = sc.nextInt();
-			while (!((EtatOthello)etat).successeur(x, y, ((JoueurOthello)joueurCourant).getPion())) {
-				System.out.println("coordonnée invalide!");
-				System.out.println("entrer votre numero de ligne");
-				x = sc.nextInt();
-				System.out.println("entrer votre numero de colonne");
-				y = sc.nextInt();
-			}
-			((EtatOthello)etat).setPion(x, y, ((JoueurOthello)joueurCourant).getPion());
-			((EtatOthello)etat).retourner(x, y,((JoueurOthello)joueurCourant).getPion());
-			
-			
-		}else{
-			//passer un tour
-			System.out.println("Vous ne pouvez pas plaser de pion !! ");
+	@Override
+	protected void aucunSuccesseur() {
+		passeSonTour ++;
+		System.out.println(AUCUN_SUCCESSEUR);
+	}
+	
+	protected void tour() {
+		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
+		
+		if (succ.size() > 0) {
+			allerSurUnSuccesseur();
+		}
+		else {
+			aucunSuccesseur();
 		}
 		
 		joueurSuivant();
-		
 	}
 	
-	
 	private void joueurSuivant() {
-		System.out.println("Au joueur suivant ! ");
-		if (joueurCourant == j1){
+		System.out.println(AU_SUIVANT);
+		
+		if (joueurCourant == j1) {
 			joueurCourant = j2;
-		}else{
+		}
+		else {
 			joueurCourant = j1;
 		}
 	}
-
-
-	protected Joueur getGagnant(){
-		return j1;
-	}
 	
-	public static void main(String[] args) {
-		PartieOthello p = new PartieOthello(new JoueurOthello(), new JoueurOthello());
-		
-		p.jeu();
+	public Joueur getGagnant() {
+		return joueurCourant;
 	}
 	
 }

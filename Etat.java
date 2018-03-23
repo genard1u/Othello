@@ -11,14 +11,12 @@ import java.util.ArrayList;
  */
 public abstract class Etat {
 
-	protected Etat() {
-		
-	}
+	protected Etat() {}
 	
 	public abstract ArrayList<Etat> successeurs(Joueur j);
 	
 	public boolean equals(Etat e){
-		return this.toString().equals(e.toString());
+		return toString().equals(e.toString());
 	}
 	
 }
