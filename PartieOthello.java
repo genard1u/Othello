@@ -47,8 +47,6 @@ public class PartieOthello extends Partie {
 		System.out.println(COLONNE);
 		coords[1] = sc.nextInt();
 		
-		sc.close();
-		
 		return coords;
     }
     

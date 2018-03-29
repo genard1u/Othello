@@ -9,14 +9,16 @@ public class JeuOthello extends Jeu {
 	
 	@Override
 	public boolean continuer() {
-		return false;
+		return true;
 	}
 	
 	@Override
 	public void lancer() {
         while (continuer()) {
 			partieCourante = new PartieOthello(j1, j2);
-			partieCourante.lancer();
+			Joueur gagnant = partieCourante.lancer();
+			
+			gagnant.victoire();
 			afficherScore();
 		}
 	}
