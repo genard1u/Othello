@@ -16,7 +16,9 @@ public class JeuOthello extends Jeu {
 	public void lancer() {
         while (continuer()) {
 			partieCourante = new PartieOthello(j1, j2);
-			partieCourante.lancer();
+			Joueur gagnant = partieCourante.lancer();
+			
+			gagnant.victoire();
 			afficherScore();
 			
 		}

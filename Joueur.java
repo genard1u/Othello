@@ -19,4 +19,8 @@ public abstract class Joueur {
 		return nom;
 	}
 	
+	public void victoire() {
+		partiesGagnees ++;
+	}
+	
 }
