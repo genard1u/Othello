@@ -8,27 +8,36 @@ package othello;
  */
 public class JoueurOthello extends Joueur {
 
-	private Pion p;
+	private Pion pion;
 	
 	
-	public JoueurOthello() {
-		p = null;
+	public JoueurOthello(String nom) {
+		super(nom);
+		pion = null;
 	}
 	
-	public JoueurOthello(Pion p) {
-		this.p = p;
+	public JoueurOthello(String nom, Pion p) {
+		super(nom);
+		pion = p;
+		
+		assert p != Pion.RIEN;
 	}
 	
-	public Pion getPion() {
-		return p;
+	public Pion couleur() {
+		return pion;
 	}
 
 	public void setPion(Pion p) {
-		this.p = p;
+		pion = p;
+		assert p != Pion.RIEN;
 	}
 	
 	public String toString(){
-		return "le  joueur avec les pions "+p; 
+		return "le  joueur avec les pions "+pion; 
+
+		
+		
+		
 	}
 	
 }
