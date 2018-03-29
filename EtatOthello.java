@@ -234,11 +234,47 @@ public class EtatOthello extends Etat {
 		
 		return cmp;
 	}
-	
-	public int eval0() {
+	public int valJeton(Pion p) {
+		int cmp = 0;
+		
+		for (int i = 0; i < T; i ++){
+			for (int j = 0; j < T; j++){
+				if (plateau[i][j] == p) {
+					cmp++;
+					if(estBord(i,j)){
+						cmp++;
+						if(estCoin(i,j)){
+							cmp++;
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	private boolean estCoin(int i, int j) {
+		// TODO Auto-generated method stub
+		return ((i == 0) || (i == T-1)) && ((j == 0) || (j == T-1));
+	}
+
+	private boolean estBord(int i, int j) {
+		// TODO Auto-generated method stub
+		return (i == 0) || (i == T-1) || (j == 0) || (j == T-1);
+	}
+
+	public int eval01() {
 		return nbJeton(Pion.NOIR)-nbJeton(Pion.BLANC);
 	}
 	
+	public int eval02() {
+		return valJeton(Pion.NOIR)-valJeton(Pion.BLANC);
+	}
+	
+	public int eval03() {
+		return (valJeton(Pion.NOIR)+nbJeton(Pion.NOIR))-(valJeton(Pion.BLANC)+nbJeton(Pion.BLANC));
+	}
+	
+
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
 		JoueurOthello j0 = new JoueurOthello("j1", Pion.NOIR);
