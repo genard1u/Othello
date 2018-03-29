@@ -28,7 +28,7 @@ public class JoueurOthello extends Joueur {
 	}
 	
 	public String toString(){
-		return "le  joueur avec le pion "+p; 
+		return "le  joueur avec les pions "+p; 
 	}
 	
 }
