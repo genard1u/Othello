@@ -23,21 +23,25 @@ public class JoueurOthello extends Joueur {
 		assert p != Pion.RIEN;
 	}
 	
+	public JoueurOthello(String nom, boolean humain, Pion p) {
+		super(nom, humain);
+		pion = p;
+		
+		assert p != Pion.RIEN;
+	}
+	
 	public Pion couleur() {
 		return pion;
 	}
 
 	public void setPion(Pion p) {
 		pion = p;
+		
 		assert p != Pion.RIEN;
 	}
 	
 	public String toString(){
-		return "le  joueur avec les pions "+pion; 
-
-		
-		
-		
+		return "Le joueur " + nom + "a les pions " + pion; 
 	}
 	
 }

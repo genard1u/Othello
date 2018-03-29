@@ -3,6 +3,7 @@ package othello;
 public abstract class Joueur {
 	
 	protected String nom;
+	protected boolean estHumain;
 	protected int partiesGagnees;
 	
 	
@@ -11,6 +12,19 @@ public abstract class Joueur {
 		partiesGagnees = 0;
 	}
 
+	public Joueur(String joueur, boolean humain) {
+		this(joueur);
+		estHumain = humain;
+	}
+	
+	public boolean estHumain() {
+		return estHumain;
+	}
+	
+	public boolean estMachine() {
+		return !estHumain;
+	}
+	
 	public int partiesGagnees() {
 		return partiesGagnees;
 	}

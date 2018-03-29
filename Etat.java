@@ -38,7 +38,7 @@ public abstract class Etat {
 		return eSortie;
 	}
 	
-	public float evaluation(Joueur j, int c) {
+	public float evaluation(Etat e, Joueur j, int c) {
 		ArrayList<Etat> S;
 		float score = 0;
 		float score_max = 0;
@@ -49,11 +49,29 @@ public abstract class Etat {
 		}
 		
 		if (c == 0) {
-			return e.eval01();
+			return eval01();
 		}
 		
 		S = successeurs(j);
-		return 0;
+		
+		if (j.estMachine()) {
+			score_max = Float.MIN_VALUE;
+			
+			for (Etat s : S) {
+				score_max = Math.max(score_max, evaluation());
+			}
+			
+			return score_max;
+		}
+		else {
+			score_min = Float.MAX_VALUE;
+			
+			for (Etat s : S) {
+				score_max = Math.min(score_max, evaluation());
+			}
+			
+			return score_min;
+		}
 	}
 	
 	public abstract int eval0();
