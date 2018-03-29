@@ -236,7 +236,7 @@ public class EtatOthello extends Etat {
 	}
 	
 	public int eval0() {
-		return 0;
+		return nbJeton(Pion.NOIR)-nbJeton(Pion.BLANC);
 	}
 	
 	public static void main(String[] args) {
