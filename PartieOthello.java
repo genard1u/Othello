@@ -3,6 +3,9 @@ package othello;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import othello.eval.Eval0;
+import othello.eval.Eval0Othello_1;
+
 public class PartieOthello extends Partie {
 	
 	private final static String LIGNE = "Entrez votre numéro de ligne : ";
@@ -21,6 +24,7 @@ public class PartieOthello extends Partie {
 		((JoueurOthello) j2).setPion(Pion.BLANC);
 		joueurCourant = j1;
 		passeSonTour = 0;
+		eval0 = new Eval0Othello_1 () ;
 	}
 	
 	public boolean joueursBloques() {
@@ -76,16 +80,26 @@ public class PartieOthello extends Partie {
 		System.out.println(AUCUN_SUCCESSEUR);
 	}
 	
-	protected void tour() {
+	protected void tour(Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
-		
-		System.out.println(etat.toString());
-		
-		if (succ.size() > 0) {
-			allerSurUnSuccesseur();
-		}
-		else {
-			aucunSuccesseur();
+		if ( joueurCourant.estHumain){
+			System.out.println(etat.toString());
+			
+			if (succ.size() > 0) {
+				allerSurUnSuccesseur();
+			}
+			else {
+				aucunSuccesseur();
+			}
+		}else{
+			if ( eval0s.length == 2){
+				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
+					setEval0(eval0s[0]);
+				}else{
+					setEval0(eval0s[1]);
+				}
+			}
+			selectionSucesseur(succ);
 		}
 		
 		if (!estTerminee()){
@@ -93,6 +107,29 @@ public class PartieOthello extends Partie {
 		}
 	}
 	
+	private void setEval0(Eval0 eval0) {
+		this.eval0 = eval0;
+	}
+
+	private void selectionSucesseur(ArrayList<Etat> succ) {
+		Etat m = succ.get(0);
+		if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
+			for (Etat e : succ){
+				if (eval0.eval(e)>eval0.eval(m)){
+					m = e ;
+				}
+			}
+		}else{
+			for (Etat e : succ){
+				if (eval0.eval(e)<eval0.eval(m)){
+					m = e ;
+				}
+			}
+		}
+		
+		etat = m;
+	}
+
 	private void joueurSuivant() {
 		assert estTerminee() == false;
 		

@@ -15,9 +15,6 @@ public class PaireDeJoueurs {
 		this.j2 = j2;
 	}
 	
-	public PaireDeJoueurs(String nom1, String nom2) {
-		Joueur j1 = new Joueur(nom1, false);
-	}
 	
 	public Joueur joueurHumain() {
 		Joueur humain;

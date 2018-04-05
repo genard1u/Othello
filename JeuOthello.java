@@ -1,5 +1,7 @@
 package othello;
 
+import othello.eval.Eval0;
+
 public class JeuOthello extends Jeu {
 
 	public JeuOthello() {
@@ -22,6 +24,13 @@ public class JeuOthello extends Jeu {
 			afficherScore();
 			
 		}
+	}
+	
+	public int evaluationEval0(Eval0 e1 , Eval0 e2){
+		int res =0;
+		PartieOthello p = new PartieOthello(new JoueurOthello("m1", false, Pion.NOIR),new JoueurOthello("m1", false, Pion.BLANC) );
+		p.lancer(e1,e2);
+		return res;
 	}
 
 	public static void main(String[] args) {

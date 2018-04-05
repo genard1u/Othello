@@ -36,5 +36,10 @@ public abstract class Joueur {
 	public void victoire() {
 		partiesGagnees ++;
 	}
+
+	public void setHumain(boolean b) {
+		// TODO Auto-generated method stub
+		estHumain = b ;
+	}
 	
 }

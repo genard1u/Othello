@@ -74,7 +74,6 @@ public abstract class Etat {
 		}
 	}
 	
-	public abstract int eval0();
 	public abstract ArrayList<Etat> successeurs(Joueur j);
 
 	public abstract int eval01();
