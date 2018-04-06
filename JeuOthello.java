@@ -26,10 +26,32 @@ public class JeuOthello extends Jeu {
 		}
 	}
 	
-	public int evaluationEval0(Eval0 e1 , Eval0 e2){
+	public int evaluationEval0(Eval0 e1 , Eval0 e2 , int profondeur){
 		int res =0;
-		PartieOthello p = new PartieOthello(new JoueurOthello("m1", false, Pion.NOIR),new JoueurOthello("m1", false, Pion.BLANC) );
-		p.lancer(e1,e2);
+		Joueur jo1 = new JoueurOthello("m1", false, Pion.NOIR);
+		Joueur jo2 = new JoueurOthello("m2", false, Pion.BLANC);
+		PartieOthello p = new PartieOthello(jo1,jo2 );
+		for (int i = 0 ; i<profondeur; i++){
+			
+			Joueur j = p.lancer(e1,e2);
+			if (j.nom == "m1" ){
+				res++;
+			}else{
+				res--;
+			}
+			if(p.j1.nom == jo1.nom){
+				p = new PartieOthello(jo2,jo1 );
+			}else{
+				p = new PartieOthello(jo1,jo2 );
+			}
+		}
+		
+		if (res>1){
+			res=1;
+		}
+		if (res<-1){
+			res=-1;
+		}
 		return res;
 	}
 
