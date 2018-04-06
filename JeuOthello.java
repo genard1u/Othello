@@ -1,6 +1,9 @@
 package othello;
 
 import othello.eval.Eval0;
+import othello.eval.Eval0Othello_1;
+import othello.eval.Eval0Othello_2;
+import othello.eval.Eval0Othello_3;
 
 public class JeuOthello extends Jeu {
 
@@ -57,8 +60,17 @@ public class JeuOthello extends Jeu {
 
 	public static void main(String[] args) {
 		JeuOthello jeu = new JeuOthello();
+		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
+		System.out.println("\n\n");
+		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 3));
+		System.out.println("\n\n");
+		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 3));
+		System.out.println("\n\n");
+		//jeu.lancer();
 		
-		jeu.lancer();
 	}
 	
 }

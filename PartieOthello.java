@@ -99,7 +99,12 @@ public class PartieOthello extends Partie {
 					setEval0(eval0s[1]);
 				}
 			}
-			selectionSucesseur(succ);
+			if (succ.size() > 0) {
+				selectionSucesseur(succ);
+			}
+			else {
+				aucunSuccesseur();
+			}
 		}
 		
 		if (!estTerminee()){
