@@ -37,11 +37,17 @@ public class JeuOthello extends Jeu {
 		for (int i = 0 ; i<profondeur; i++){
 			
 			Joueur j = p.lancer(e1,e2);
-			if (j.nom == "m1" ){
+			System.out.println(p.j1.nom);
+			System.out.println(j.nom);
+			if (j.nom == p.j1.nom ){
 				res++;
+
+				System.out.println(true);
 			}else{
 				res--;
+				System.out.println(false);
 			}
+			
 			if(p.j1.nom == jo1.nom){
 				p = new PartieOthello(jo2,jo1 );
 			}else{
@@ -59,16 +65,19 @@ public class JeuOthello extends Jeu {
 	}
 
 	public static void main(String[] args) {
+		
+		
 		JeuOthello jeu = new JeuOthello();
 		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		System.out.println("\n\n");
-		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 3));
-		System.out.println("\n\n");
+		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
+		System.out.println("\n");
 		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_3 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 3));
-		System.out.println("\n\n");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 2));
+		System.out.println("\n");*/
+		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_1 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));
 		//jeu.lancer();
 		
 	}

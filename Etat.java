@@ -32,33 +32,48 @@ public abstract class Etat {
 		ArrayList<Etat> S = successeurs(j);
 		Etat eSortie = null;
 		float score = 0;
-		float score_max = Float.MAX_VALUE;
-		
-		
+		float score_max = Float.MIN_VALUE;
+		for (Etat e : S){
+			score = evaluation(c,j);
+			if (score >= score_max)
+			{
+				eSortie = e;
+				score_max= score ;
+			}
+		}
+			
 		return eSortie;
 	}
 	
-	public float evaluation(Etat e, Joueur j, int c) {
+	public float evaluation(int c,Joueur j) {
+		Joueur jSuivant = Partie.getJoueurSuivant(j);
 		ArrayList<Etat> S;
 		float score = 0;
 		float score_max = 0;
 		float score_min = 0;
 		
 		if (estFinal(j)) {
+			if (j.estHumain){
+				return Float.MIN_VALUE;
+			}
+			if (j.estMachine()){
+				return Float.MAX_VALUE;
+			}
+			return 0;
 			
 		}
 		
 		if (c == 0) {
-			return eval01();
+			return Partie.getEval0().eval(this);
 		}
 		
 		S = successeurs(j);
 		
-		if (j.estMachine()) {
+		if (j.estMachine()) {//TODO
 			score_max = Float.MIN_VALUE;
 			
 			for (Etat s : S) {
-				score_max = Math.max(score_max, evaluation());
+				score_max = Math.max(score_max, s.evaluation(c-1,jSuivant));
 			}
 			
 			return score_max;
@@ -67,7 +82,7 @@ public abstract class Etat {
 			score_min = Float.MAX_VALUE;
 			
 			for (Etat s : S) {
-				score_max = Math.min(score_max, evaluation());
+				score_max = Math.min(score_max, s.evaluation(c-1,jSuivant));
 			}
 			
 			return score_min;

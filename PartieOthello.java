@@ -137,18 +137,20 @@ public class PartieOthello extends Partie {
 
 	private void joueurSuivant() {
 		assert estTerminee() == false;
-		
-		System.out.println(AU_SUIVANT);
-		
 		if (joueurCourant == j1) {
 			joueurCourant = j2;
 		}
 		else {
 			joueurCourant = j1;
 		}
+		if (joueurCourant.estHumain){
+			System.out.println(AU_SUIVANT);
+		}
+		
+	
 	}
 
-	protected Joueur getGagnant() {
+	public  Joueur getGagnant() {
 		int cmpJetonJ1 = 0 , cmpJetonJ2 = 0;
 	    cmpJetonJ1 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j1).couleur());
 	    cmpJetonJ2 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j2).couleur());
