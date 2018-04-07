@@ -138,36 +138,33 @@ public class JeuOthello extends Jeu {
 		} while (continuer());
 	}
 	
-	public int evaluationEval0(Eval0 eval01, Eval0 eval02, int profondeur) {
-		int gainsCumules = 0;
-		JoueurOthello jo1 = new JoueurOthello("m1", false, Pion.NOIR);
-		JoueurOthello jo2 = new JoueurOthello("m2", false, Pion.BLANC);
+	public int eval0VsEval0(JoueurOthello j1, JoueurOthello j2, Eval0 eval01, Eval0 eval02, int profondeur) {
 		PartieOthello partie = null; 
 		JoueurOthello gagnant = null;
+		int gain = 0;
 		
-		partie = new PartieOthello(jo1, jo2);
+		partie = new PartieOthello(j1, j2);
 		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval01, eval02);
 		 
 		if (gagnant != null) {
 		    if (gagnant.couleur() == Pion.NOIR) {
-			    gainsCumules ++;
+			    gain ++;
 		    }
 		    else {
-			    gainsCumules --;
+			    gain --;
 		    }
 		}
 		
-		partie = new PartieOthello(jo1, jo2); 
-		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval02, eval01);
-		 
-		if (gagnant != null) {
-		    if (gagnant.couleur() == Pion.NOIR) {
-			    gainsCumules ++;
-		    }
-		    else {
-			    gainsCumules --;
-		    }
-		}
+		return gain;
+	}
+	
+	public int evaluationEval0(Eval0 eval01, Eval0 eval02, int profondeur) {
+		int gainsCumules = 0;
+		JoueurOthello j1 = new JoueurOthello("m1", false, Pion.NOIR);
+		JoueurOthello j2 = new JoueurOthello("m2", false, Pion.BLANC);
+		
+		gainsCumules += eval0VsEval0(j1, j2, eval01, eval02, profondeur);
+		gainsCumules += eval0VsEval0(j1, j2, eval02, eval01, profondeur);
 		
 		if (gainsCumules > 1) {
 			gainsCumules = 1;
@@ -183,18 +180,23 @@ public class JeuOthello extends Jeu {
 	}	
 
 	public static void main(String[] args) {		
-		// JeuOthello jeu = new JeuOthello();
-		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
+		JeuOthello jeu = new JeuOthello();
+		
+	    System.out.println("Eval0Othello_1 vs Eval0Othello_2 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
 		System.out.println("\n");
-		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_3 :");
+		
+		System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
+		System.out.println("\n");
+		
+		System.out.println("Eval0Othello_2 vs Eval0Othello_3 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 2));
 		System.out.println("\n");
-		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_1 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));*/
-		//jeu.lancer();
+		
+		System.out.println("Eval0Othello_2 vs Eval0Othello_1 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));
+		System.out.println("\n");
 	}
 	
 }

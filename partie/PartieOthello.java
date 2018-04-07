@@ -24,8 +24,8 @@ public class PartieOthello extends Partie {
 	public PartieOthello(JoueurOthello un, JoueurOthello deux) {
 		super(un, deux);
 		
-		assert un.couleur() == Pion.NOIR;
-		assert deux.couleur() == Pion.BLANC;
+		assert j1().couleur() == Pion.NOIR;
+		assert j2().couleur() == Pion.BLANC;
 		
 		etat = new EtatOthello();
 		joueurCourant = j1;
