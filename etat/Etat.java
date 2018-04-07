@@ -84,10 +84,6 @@ public abstract class Etat {
 	}
 	
 	public float evaluation(Joueur courant, Joueur j1, Joueur j2, int c) {
-		Joueur suivant = joueurSuivant(courant, j1, j2);
-		float score_max = 0f;
-		float score_min = 0f;
-		
 		if (estFinal(courant)) {
 			return valeurFinDePartie();
 		}
@@ -96,10 +92,11 @@ public abstract class Etat {
 			return eval0.eval(this);
 		}
 		
+		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
 		
 		if (estPremier(courant)) {
-			score_max = Float.MIN_VALUE;
+			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {
 				score_max = Math.max(score_max, e.evaluation(suivant, j1, j2, c - 1));
@@ -108,10 +105,10 @@ public abstract class Etat {
 			return score_max;
 		}
 		else {
-			score_min = Float.MAX_VALUE;
+			float score_min = Float.MAX_VALUE;
 			
 			for (Etat e : S) {
-				score_min = Math.min(score_max, e.evaluation(suivant, j1, j2, c - 1));
+				score_min = Math.min(score_min, e.evaluation(suivant, j1, j2, c - 1));
 			}
 			
 			return score_min;
@@ -146,61 +143,44 @@ public abstract class Etat {
 	}
 	
 	public float evaluation_alpha_beta(Joueur courant, Joueur j1, Joueur j2, int c, float alpha, float beta) {
-		Joueur jSuivant = Partie.getJoueurSuivant(j);
-		ArrayList<Etat> S;
-		float score = 0;
-		float score_max = 0;
-		float score_min = 0;
+		if (estFinal(courant)) {
+			return valeurFinDePartie();
+		}
 		
-		if (estFinal(j)) {
-			if ( ((JoueurOthello)j).couleur() == Pion.NOIR ){
-				if (Partie.isGagnant(j)){
-					return Float.MAX_VALUE;
-				}else{
-					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
-						return Float.MIN_VALUE;
-					}
-				}
-			}else{
-				if (Partie.isGagnant(j)){
-					return Float.MIN_VALUE;
-				}else{
-					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
-						return Float.MAX_VALUE;
-					}
-				}
-			
-			}
-			return 0;
-			
-		}
 		if (c == 0) {
-			return Partie.getEval0().eval(this);
+			return eval0.eval(this);
 		}
-		S = successeurs(j);
-		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
-			score_max = Float.MIN_VALUE;
+		
+		Joueur suivant = joueurSuivant(courant, j1, j2);
+		ArrayList<Etat> S = successeurs(courant);
+		
+		if (estPremier(courant)) {
+			float score_max = Float.MIN_VALUE;
 			
-			for (Etat s : S) {
-				score_max = Math.max(score_max, s.evaluation_alpha_beta(c-1,jSuivant,alpha,beta));
-				if (score_max>=beta){
+			for (Etat e : S) {
+				score_max = Math.max(score_max, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
+				
+				if (score_max >= beta) {
 					return score_max;
 				}
+				
 				alpha = Math.max(alpha, score_max);
 			}
 			
 			return score_max;
 		}
 		else {
-			score_min = Float.MAX_VALUE;
+			float score_min = Float.MAX_VALUE;
 			
-			for (Etat s : S) {
-				score_max = Math.min(score_max, s.evaluation_alpha_beta(c-1, jSuivant, alpha, beta));
-				if(score_min<= alpha){
+			for (Etat e : S) {
+				score_min = Math.min(score_min, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
+				
+				if (score_min <= alpha) {
 					return score_min;
 				}
+				
 				beta = Math.min(beta, score_min);
-			}
+			}			
 			
 			return score_min;
 		}
