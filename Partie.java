@@ -22,19 +22,19 @@ public abstract class Partie {
 	}
 	
 	protected abstract void allerSurUnSuccesseur();
-	protected abstract void aucunSuccesseur();
+	protected abstract void aucunSuccesseur(boolean aff);
 	protected abstract boolean estTerminee();
 	
-	public Joueur lancer(int c,Eval0... eval0s) {
+	public Joueur lancer(int c, boolean aff,Eval0... eval0s) {
 		joueurCourant = j1;
 		while (!estTerminee()) {
-			tour(c,eval0s);
+			tour(c,aff,eval0s);
 		}
 		gagnant = getGagnant ();
 		return getGagnant();
 	}
 	
-	protected abstract void tour(int c,Eval0... eval0s);
+	protected abstract void tour(int c, boolean aff,Eval0... eval0s);
 	public abstract Joueur getGagnant();
 	 public static Joueur getJoueurCourant(){
 		 return joueurCourant;

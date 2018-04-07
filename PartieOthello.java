@@ -76,12 +76,14 @@ public class PartieOthello extends Partie {
 	}
 
 	@Override
-	protected void aucunSuccesseur() {
+	protected void aucunSuccesseur(boolean aff) {
 		passeSonTour ++;
-		System.out.println(AUCUN_SUCCESSEUR);
+		if(aff){
+			System.out.println(AUCUN_SUCCESSEUR);
+		}
 	}
 	
-	protected void tour(int c, Eval0... eval0s) {
+	protected void tour(int c,boolean aff, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
 		if ( joueurCourant.estHumain){
 			System.out.println(etat.toString());
@@ -90,10 +92,12 @@ public class PartieOthello extends Partie {
 				allerSurUnSuccesseur();
 			}
 			else {
-				aucunSuccesseur();
+				aucunSuccesseur(aff);
 			}
 		}else{
-			System.out.println(etat.toString());
+			if(aff){
+				System.out.println(etat.toString());
+			}
 			if ( eval0s.length == 2){
 				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
 					setEval0(eval0s[0]);
@@ -103,7 +107,7 @@ public class PartieOthello extends Partie {
 			}
 			Etat e = etat.minimax_alpha_beta(joueurCourant, c);
 			if (e == null) {
-				aucunSuccesseur();
+				aucunSuccesseur( aff);
 			}
 			else {
 
@@ -113,7 +117,7 @@ public class PartieOthello extends Partie {
 		}
 		
 		if (!estTerminee()){
-			joueurSuivant();
+			joueurSuivant( aff);
 		}
 	}
 	
@@ -140,7 +144,7 @@ public class PartieOthello extends Partie {
 		etat = m;
 	}
 
-	private void joueurSuivant() {
+	private void joueurSuivant(boolean aff) {
 		assert estTerminee() == false;
 		if (joueurCourant == j1) {
 			joueurCourant = j2;
@@ -148,7 +152,7 @@ public class PartieOthello extends Partie {
 		else {
 			joueurCourant = j1;
 		}
-		if (joueurCourant.estHumain){
+		if (joueurCourant.estHumain && aff){
 			System.out.println(AU_SUIVANT);
 		}
 		
