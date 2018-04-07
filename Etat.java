@@ -81,7 +81,7 @@ public abstract class Etat {
 		
 		S = successeurs(j);
 		
-		if (j.estMachine()) {//TODO
+		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
 			score_max = Float.MIN_VALUE;
 			
 			for (Etat s : S) {
@@ -101,6 +101,77 @@ public abstract class Etat {
 		}
 	}
 	
+	public Etat minimax_alpha_beta(Joueur j, int c) {
+		ArrayList<Etat> S = successeurs(j);
+		Etat eSortie = null;
+		float score = 0;
+		float score_max = Float.MIN_VALUE;
+		for (Etat e : S){
+			score = evaluation_alpha_beta(c,j,Float.MIN_VALUE,Float.MAX_VALUE);
+			if (score >= score_max)
+			{
+				eSortie = e;
+				score_max= score ;
+			}
+		}
+			
+		return eSortie;
+	}
+	
+	private float evaluation_alpha_beta(int c, Joueur j, float minValue,float maxValue) 
+	{
+		Joueur jSuivant = Partie.getJoueurSuivant(j);
+		ArrayList<Etat> S;
+		float score = 0;
+		float score_max = 0;
+		float score_min = 0;
+		
+		if (estFinal(j)) {
+			if ( ((JoueurOthello)j).couleur() == Pion.NOIR ){
+				if (Partie.isGagnant(j)){
+					return Float.MAX_VALUE;
+				}else{
+					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
+						return Float.MIN_VALUE;
+					}
+				}
+			}else{
+				if (Partie.isGagnant(j)){
+					return Float.MIN_VALUE;
+				}else{
+					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
+						return Float.MAX_VALUE;
+					}
+				}
+			
+			}
+			return 0;
+			
+		}
+		if (c == 0) {
+			return Partie.getEval0().eval(this);
+		}
+		S = successeurs(j);
+		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
+			score_max = Float.MIN_VALUE;
+			
+			for (Etat s : S) {
+				score_max = Math.max(score_max, s.evaluation(c-1,jSuivant));
+			}
+			
+			return score_max;
+		}
+		else {
+			score_min = Float.MAX_VALUE;
+			
+			for (Etat s : S) {
+				score_max = Math.min(score_max, s.evaluation(c-1,jSuivant));
+			}
+			
+			return score_min;
+		}
+	}
+
 	public abstract ArrayList<Etat> successeurs(Joueur j);
 
 	public abstract int eval01();
