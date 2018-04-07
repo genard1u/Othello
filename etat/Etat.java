@@ -2,15 +2,12 @@ package othello.etat;
 
 import java.util.ArrayList;
 
-import othello.Pion;
 import othello.eval.Eval0;
 import othello.joueur.Joueur;
-import othello.joueur.JoueurOthello;
-import othello.partie.Partie;
 
 /**
  * @author Collignon Valentin
- * @author Genard Pierre
+ * @author Génard Pierre
  */
 public abstract class Etat {
 
@@ -36,6 +33,14 @@ public abstract class Etat {
 		}
 		
 		return estFinal;
+	}
+	
+	public Eval0 getEval0() {
+		return eval0;
+	}
+	
+	public void setEval0(Eval0 eval) {
+		eval0 = eval;
 	}
 	
 	public abstract boolean estPremier(Joueur j);
@@ -120,7 +125,7 @@ public abstract class Etat {
 		Etat eSortie = null;
 		float score_min = Float.MAX_VALUE;
 		float score_max = Float.MIN_VALUE;
-		float score = 0;
+		float score = 0f;
 		
 		for (Etat e : S) {
 			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
@@ -128,7 +133,7 @@ public abstract class Etat {
 			if (estPremier(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
-					score_max = score ;
+					score_max = score;
 				}
 			}
 			else {

@@ -91,7 +91,7 @@ public class PartieOthello extends Partie {
 	
 	protected void tour(int c,boolean aff, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
-		if ( joueurCourant.estHumain){
+		if (joueurCourant.estHumain) {
 			System.out.println(etat.toString());
 			
 			if (succ.size() > 0) {

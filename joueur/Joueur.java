@@ -38,7 +38,7 @@ public abstract class Joueur {
 	}
 
 	public void setHumain(boolean b) {
-		estHumain = b ;
+		estHumain = b;
 	}
 	
 }
