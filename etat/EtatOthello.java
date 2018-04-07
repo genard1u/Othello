@@ -88,6 +88,24 @@ public class EtatOthello extends Etat {
 		return estPremier;
 	}
 	
+	public float valeurFinDePartie() {
+		float valeur = 0f;
+		int noirs = nbJeton(Pion.NOIR);
+		int blancs = nbJeton(Pion.BLANC);		
+		
+		if (noirs > blancs) {
+			valeur = Float.MAX_VALUE;
+		}
+		else if (noirs == blancs) {
+			valeur = 0f;
+		}
+		else {
+			valeur = Float.MIN_VALUE;
+		}
+		
+		return valeur;
+	}
+	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){

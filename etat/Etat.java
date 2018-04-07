@@ -39,6 +39,7 @@ public abstract class Etat {
 	}
 	
 	public abstract boolean estPremier(Joueur j);
+	public abstract float valeurFinDePartie();
 	
 	public Joueur joueurSuivant(Joueur courant, Joueur j1, Joueur j2) {
 		Joueur suivant = null;
@@ -84,12 +85,11 @@ public abstract class Etat {
 	
 	public float evaluation(Joueur courant, Joueur j1, Joueur j2, int c) {
 		Joueur suivant = joueurSuivant(courant, j1, j2);
-		float score = 0f;
 		float score_max = 0f;
 		float score_min = 0f;
 		
 		if (estFinal(courant)) {
-			
+			return valeurFinDePartie();
 		}
 		
 		if (c == 0) {
@@ -145,8 +145,7 @@ public abstract class Etat {
 		return eSortie;
 	}
 	
-	private float evaluation_alpha_beta(int c, Joueur j, float alpha,float beta) 
-	{
+	public float evaluation_alpha_beta(Joueur courant, Joueur j1, Joueur j2, int c, float alpha, float beta) {
 		Joueur jSuivant = Partie.getJoueurSuivant(j);
 		ArrayList<Etat> S;
 		float score = 0;
