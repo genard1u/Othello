@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class EtatOthello extends Etat {
 
-	private final static int T_DEF = 4;
+	private final static int T_DEF = 8;
 	
 	private int T = T_DEF;	
 	private Pion[][] plateau;

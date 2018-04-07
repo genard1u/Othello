@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import othello.eval.Eval0;
 import othello.eval.Eval0Othello_1;
+import othello.eval.Eval0Othello_3;
 
 public class PartieOthello extends Partie {
 	
@@ -20,11 +21,11 @@ public class PartieOthello extends Partie {
 	public PartieOthello(Joueur un, Joueur deux) {
 		super(un, deux);
 		etat= new EtatOthello();
-		((JoueurOthello) j1).setPion(Pion.NOIR);
-		((JoueurOthello) j2).setPion(Pion.BLANC);
+		/*((JoueurOthello) j1).setPion(Pion.NOIR);
+		((JoueurOthello) j2).setPion(Pion.BLANC);*/
 		joueurCourant = j1;
 		passeSonTour = 0;
-		eval0 = new Eval0Othello_1 () ;
+		eval0 = new Eval0Othello_3 () ;
 	}
 	
 	public boolean joueursBloques() {
@@ -80,7 +81,7 @@ public class PartieOthello extends Partie {
 		System.out.println(AUCUN_SUCCESSEUR);
 	}
 	
-	protected void tour(Eval0... eval0s) {
+	protected void tour(int c, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
 		if ( joueurCourant.estHumain){
 			System.out.println(etat.toString());
@@ -92,6 +93,8 @@ public class PartieOthello extends Partie {
 				aucunSuccesseur();
 			}
 		}else{
+			System.out.println(etat.toString());
+			System.out.println(((JoueurOthello)joueurCourant).couleur());
 			if ( eval0s.length == 2){
 				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
 					setEval0(eval0s[0]);
@@ -99,11 +102,14 @@ public class PartieOthello extends Partie {
 					setEval0(eval0s[1]);
 				}
 			}
-			if (succ.size() > 0) {
-				selectionSucesseur(succ);
+			Etat e = etat.minimax(joueurCourant, c);
+			if (e == null) {
+				aucunSuccesseur();
 			}
 			else {
-				aucunSuccesseur();
+
+				passeSonTour = 0;
+				etat = e;
 			}
 		}
 		

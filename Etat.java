@@ -53,11 +53,23 @@ public abstract class Etat {
 		float score_min = 0;
 		
 		if (estFinal(j)) {
-			if (j.estHumain){
-				return Float.MIN_VALUE;
-			}
-			if (j.estMachine()){
-				return Float.MAX_VALUE;
+			if ( ((JoueurOthello)j).couleur() == Pion.NOIR ){
+				if (Partie.isGagnant(j)){
+					return Float.MAX_VALUE;
+				}else{
+					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
+						return Float.MIN_VALUE;
+					}
+				}
+			}else{
+				if (Partie.isGagnant(j)){
+					return Float.MIN_VALUE;
+				}else{
+					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
+						return Float.MAX_VALUE;
+					}
+				}
+			
 			}
 			return 0;
 			

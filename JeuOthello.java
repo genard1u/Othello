@@ -8,8 +8,8 @@ import othello.eval.Eval0Othello_3;
 public class JeuOthello extends Jeu {
 
 	public JeuOthello() {
-		j1 = new JoueurOthello("j1");
-		j2 = new JoueurOthello("j2");
+		j1 = new JoueurOthello("j1",false,Pion.NOIR);
+		j2 = new JoueurOthello("j2",false,Pion.BLANC);
 	}
 	
 	@Override
@@ -19,41 +19,42 @@ public class JeuOthello extends Jeu {
 	
 	@Override
 	public void lancer() {
-        while (continuer()) {
+		int i =0;
+        while (continuer()&& i!=5) {
 			partieCourante = new PartieOthello(j1, j2);
-			Joueur gagnant = partieCourante.lancer();
+			Joueur gagnant = partieCourante.lancer(1);
 			
 			gagnant.victoire();
 			afficherScore();
+			i++;
 			
 		}
 	}
 	
 	public int evaluationEval0(Eval0 e1 , Eval0 e2 , int profondeur){
 		int res =0;
-		Joueur jo1 = new JoueurOthello("m1", false, Pion.NOIR);
-		Joueur jo2 = new JoueurOthello("m2", false, Pion.BLANC);
+		JoueurOthello jo1 = new JoueurOthello("m1", false, Pion.NOIR);
+		JoueurOthello jo2 = new JoueurOthello("m2", false, Pion.BLANC);
 		PartieOthello p = new PartieOthello(jo1,jo2 );
-		for (int i = 0 ; i<profondeur; i++){
-			
-			Joueur j = p.lancer(e1,e2);
-			System.out.println(p.j1.nom);
-			System.out.println(j.nom);
-			if (j.nom == p.j1.nom ){
-				res++;
-
-				System.out.println(true);
-			}else{
-				res--;
-				System.out.println(false);
-			}
-			
-			if(p.j1.nom == jo1.nom){
-				p = new PartieOthello(jo2,jo1 );
-			}else{
-				p = new PartieOthello(jo1,jo2 );
-			}
+		Joueur j = p.lancer(profondeur, e1,e2);
+		 
+		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
+			res++;
+		}else{
+			res--;
 		}
+		/*((JoueurOthello)(p.j1)).setPion(Pion.BLANC);
+		((JoueurOthello)(p.j2)).setPion(Pion.NOIR);*/
+		p = new PartieOthello(jo2,jo1 );
+		System.out.println(((JoueurOthello)(p.j1)).couleur());
+		j = p.lancer(profondeur, e1,e2);
+		 
+		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
+			res--;
+		}else{
+			res++;
+		}
+		
 		
 		if (res>1){
 			res=1;
@@ -68,17 +69,17 @@ public class JeuOthello extends Jeu {
 		
 		
 		JeuOthello jeu = new JeuOthello();
-		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
+		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
+		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
 		System.out.println("\n");
 		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_3 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 2));
-		System.out.println("\n");*/
+		System.out.println("\n");
 		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_1 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));
-		//jeu.lancer();
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));*/
+		jeu.lancer();
 		
 	}
 	
