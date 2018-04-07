@@ -116,8 +116,8 @@ public class EtatOthello extends Etat {
 	
 	public float valeurFinDePartie() {
 		float valeur = 0f;
-		int noirs = nbJeton(Pion.NOIR);
-		int blancs = nbJeton(Pion.BLANC);		
+		int noirs = nbJetons(Pion.NOIR);
+		int blancs = nbJetons(Pion.BLANC);		
 		
 		if (noirs > blancs) {
 			valeur = Float.MAX_VALUE;
@@ -288,7 +288,7 @@ public class EtatOthello extends Etat {
 		return plateau[x][y] == Pion.RIEN;
 	}
 	
-	public int nbJeton(Pion couleur) {
+	public int nbJetons(Pion couleur) {
 		int cmp = 0;
 		
 		for (int i = 0; i < T; i ++) {
@@ -399,7 +399,7 @@ public class EtatOthello extends Etat {
 	}
 
 	public int eval01() {
-		return nbJeton(Pion.NOIR) - nbJeton(Pion.BLANC);
+		return nbJetons(Pion.NOIR) - nbJetons(Pion.BLANC);
 	}
 	
 	public int eval02() {
@@ -407,8 +407,8 @@ public class EtatOthello extends Etat {
 	}
 	
 	public int eval03() {
-		int evalNoirs = valJeton(Pion.NOIR) + nbJeton(Pion.NOIR);
-		int evalBlancs = valJeton(Pion.BLANC) + nbJeton(Pion.BLANC);
+		int evalNoirs = valJeton(Pion.NOIR) + nbJetons(Pion.NOIR);
+		int evalBlancs = valJeton(Pion.BLANC) + nbJetons(Pion.BLANC);
 		
 		return evalNoirs - evalBlancs;
 	}

@@ -5,6 +5,9 @@ import othello.etat.EtatOthello;
 
 public abstract class  Eval0Othello extends Eval0 {
 
+	public static final int NB_EVAL0 = 4;
+	
+	
 	public Eval0Othello() {}
 
 	@Override

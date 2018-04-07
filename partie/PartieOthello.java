@@ -23,14 +23,14 @@ public class PartieOthello extends Partie {
 	private int passeSonTour;
 	
 	
-	public PartieOthello(Joueur un, Joueur deux) {
+	public PartieOthello(JoueurOthello un, JoueurOthello deux) {
 		super(un, deux);
-		etat= new EtatOthello();
-		/*((JoueurOthello) j1).setPion(Pion.NOIR);
-		((JoueurOthello) j2).setPion(Pion.BLANC);*/
+		
+		assert un.couleur() != deux.couleur();
+		
+		etat = new EtatOthello();
 		joueurCourant = j1;
 		passeSonTour = 0;
-		eval0 = new Eval0Othello_3 () ;
 	}
 	
 	public boolean joueursBloques() {
@@ -89,9 +89,10 @@ public class PartieOthello extends Partie {
 		}
 	}
 	
-	protected void tour(int c,boolean aff, Eval0... eval0s) {
+	protected void tour(int c, boolean aff, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
-		if (joueurCourant.estHumain) {
+		
+		if (joueurCourant.estHumain()) {
 			System.out.println(etat.toString());
 			
 			if (succ.size() > 0) {
@@ -100,48 +101,53 @@ public class PartieOthello extends Partie {
 			else {
 				aucunSuccesseur(aff);
 			}
-		}else{
-			if(aff){
+		}
+		else{
+			if (aff) {
 				System.out.println(etat.toString());
 			}
-			if ( eval0s.length == 2){
+			
+			if (eval0s.length == 2) {
 				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
 					setEval0(eval0s[0]);
-				}else{
+				}
+				else{
 					setEval0(eval0s[1]);
 				}
 			}
 			Etat e = etat.minimax_alpha_beta(joueurCourant, c);
+			
 			if (e == null) {
 				aucunSuccesseur( aff);
 			}
 			else {
-
 				passeSonTour = 0;
 				etat = e;
 			}
 		}
 		
 		if (!estTerminee()){
-			joueurSuivant( aff);
+			joueurSuivant(aff);
 		}
 	}
 	
 	private void setEval0(Eval0 eval) {
-		this.eval0 = eval;
+		eval0 = eval;
 	}
 
 	private void selectionSucesseur(ArrayList<Etat> succ) {
 		Etat m = succ.get(0);
+		
 		if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
 			for (Etat e : succ){
-				if (eval0.eval(e)>eval0.eval(m)){
+				if (eval0.eval(e) > eval0.eval(m)){
 					m = e ;
 				}
 			}
-		}else{
+		}
+		else {
 			for (Etat e : succ){
-				if (eval0.eval(e)<eval0.eval(m)){
+				if (eval0.eval(e) < eval0.eval(m)){
 					m = e ;
 				}
 			}
@@ -160,15 +166,15 @@ public class PartieOthello extends Partie {
 			joueurCourant = j1;
 		}
 		
-		if (joueurCourant.estHumain && aff){
+		if (joueurCourant.estHumain() && aff) {
 			System.out.println(AU_SUIVANT);
 		}	
 	}
 
-	public  Joueur getGagnant() {
+	public Joueur getGagnant() {
 		int cmpJetonJ1 = 0 , cmpJetonJ2 = 0;
-	    cmpJetonJ1 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j1).couleur());
-	    cmpJetonJ2 = ((EtatOthello)etat).nbJeton(((JoueurOthello)j2).couleur());
+	    cmpJetonJ1 = ((EtatOthello)etat).nbJetons(((JoueurOthello)j1).couleur());
+	    cmpJetonJ2 = ((EtatOthello)etat).nbJetons(((JoueurOthello)j2).couleur());
 	    
 		if (cmpJetonJ1 < cmpJetonJ2) {
 			return j2;

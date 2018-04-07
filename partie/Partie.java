@@ -15,9 +15,9 @@ public abstract class Partie {
 	protected Joueur gagnant;
 	
 	
-	public Partie() {}
+	protected Partie() {}
 	
-	public Partie(Joueur un, Joueur deux) {
+	protected Partie(Joueur un, Joueur deux) {
 		j1 = un;
 		j2 = deux; 
 	}
@@ -67,7 +67,7 @@ public abstract class Partie {
 		return null;
 	}
 
-	public boolean isGagnant(Joueur j) {
+	public boolean estGagnant(Joueur j) {
 		return j == gagnant;
 	}
 	
