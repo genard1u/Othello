@@ -1,6 +1,10 @@
-package othello;
+package othello.etat;
 
 import java.util.ArrayList;
+
+import othello.Pion;
+import othello.joueur.Joueur;
+import othello.joueur.JoueurOthello;
 
 /**
  * @author Collignon Valentin

@@ -1,6 +1,8 @@
-package othello;
+package othello.partie;
 
+import othello.etat.Etat;
 import othello.eval.Eval0;
+import othello.joueur.Joueur;
 
 public abstract class Partie {
 

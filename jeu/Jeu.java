@@ -1,4 +1,7 @@
-package othello;
+package othello.jeu;
+
+import othello.joueur.Joueur;
+import othello.partie.Partie;
 
 public abstract class Jeu {
 

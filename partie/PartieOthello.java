@@ -1,11 +1,16 @@
-package othello;
+package othello.partie;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import othello.Pion;
+import othello.etat.Etat;
+import othello.etat.EtatOthello;
 import othello.eval.Eval0;
 import othello.eval.Eval0Othello_1;
 import othello.eval.Eval0Othello_3;
+import othello.joueur.Joueur;
+import othello.joueur.JoueurOthello;
 
 public class PartieOthello extends Partie {
 	

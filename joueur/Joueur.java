@@ -1,4 +1,4 @@
-package othello;
+package othello.joueur;
 
 public abstract class Joueur {
 	

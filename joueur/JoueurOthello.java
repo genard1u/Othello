@@ -1,7 +1,9 @@
 /**
  * 
  */
-package othello;
+package othello.joueur;
+
+import othello.Pion;
 
 /**
  * @author collign57u
@@ -26,7 +28,7 @@ public class JoueurOthello extends Joueur {
 	public JoueurOthello(String nom, boolean humain, Pion p) {
 		super(nom, humain);
 		pion = p;
-		
+
 		assert p != Pion.RIEN;
 	}
 	

@@ -1,8 +1,12 @@
-package othello;
+package othello.etat;
 
 import java.util.ArrayList;
 
+import othello.Pion;
 import othello.eval.Eval0;
+import othello.joueur.Joueur;
+import othello.joueur.JoueurOthello;
+import othello.partie.Partie;
 
 /**
  * @author Collignon Valentin
@@ -44,7 +48,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation(courant, j1, j2, c);
 			
-			if (j1.estMachine()) {
+			if (courant.estMachine()) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;
@@ -68,26 +72,7 @@ public abstract class Etat {
 		float score_max = 0;
 		float score_min = 0;
 		
-		if (estFinal(j)) {
-			if ( ((JoueurOthello)j).couleur() == Pion.NOIR ){
-				if (Partie.isGagnant(j)){
-					return Float.MAX_VALUE;
-				}else{
-					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
-						return Float.MIN_VALUE;
-					}
-				}
-			}else{
-				if (Partie.isGagnant(j)){
-					return Float.MIN_VALUE;
-				}else{
-					if (Partie.isGagnant(Partie.getJoueurSuivant(j))){
-						return Float.MAX_VALUE;
-					}
-				}
-			
-			}
-			return 0;
+		if (estFinal(courant)) {
 			
 		}
 		
@@ -127,7 +112,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
-			if (j1.estMachine()) {
+			if (courant.estMachine()) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;

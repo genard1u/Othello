@@ -1,6 +1,6 @@
 package othello.eval;
 
-import othello.EtatOthello;
+import othello.etat.EtatOthello;
 
 public class Eval0Othello_4 extends Eval0Othello {
 
