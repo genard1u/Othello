@@ -8,5 +8,4 @@ public abstract class Eval0 {
 	
 	public abstract int eval(Etat etat);
 	
-
 }

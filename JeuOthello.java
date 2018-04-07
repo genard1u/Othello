@@ -18,6 +18,7 @@ public class JeuOthello extends Jeu {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("voulez vous jouer(0) ou faire un evaluation d'eval0(1)?");
 		b = choixBoolean(sc);
+		
 		if(b){
 			System.out.println("Entrez le numero de deux fonction eval0 (il y en a 4)");
 			choixEval0(sc);
@@ -47,10 +48,12 @@ public class JeuOthello extends Jeu {
 	private Eval0 selectionEval0(Scanner sc) {
 		Eval0 e = new Eval0Othello_1();
 		int i = sc.nextInt();
-		while (i<=0||i>4){
+		
+		while (i <= 0 || i > 4){
 			System.out.println("numero invalide encore un svp ");
 			i= sc.nextInt();
 		}
+		
 		switch(i){
 			case 1:
 				e = new Eval0Othello_1();
@@ -65,14 +68,14 @@ public class JeuOthello extends Jeu {
 				e = new Eval0Othello_4();
 				break;
 		}
+		
 		return e;
 	}
 
-
-
 	private void choixJoueur(Scanner sc) {
 		int i = sc.nextInt();
-		switch (i){
+		
+		switch (i) {
 			case 0 : 
 				j1.setHumain(true);
 				j2.setHumain(true);
@@ -81,37 +84,34 @@ public class JeuOthello extends Jeu {
 				j2.setHumain(true);
 				break;
 		}
-		lancer(true);
 		
+		lancer(true);		
 	}
 
-
-
 	private boolean choixBoolean(Scanner sc) {
-		if ( sc.nextInt()==1){
+		if (sc.nextInt() == 1) {
 			return true;
 		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean continuer() {
 		System.out.println("fini,voulez vous recomencer? oui(1) non(sinon)");
+		
 		return choixBoolean(new Scanner(System.in));
 	}
 	
 	@Override
-	public void lancer(boolean aff) {
-        
-		do{
+	public void lancer(boolean aff) {        
+		do {
 			partieCourante = new PartieOthello(j1, j2);
 			Joueur gagnant = partieCourante.lancer(1,aff);
 		
 			gagnant.victoire();
-			afficherScore(); 
-			
-			
-		}while (continuer());
+			afficherScore(); 			
+		} while (continuer());
 	}
 	
 	public int evaluationEval0(Eval0 e1 , Eval0 e2 , int profondeur){
@@ -148,13 +148,9 @@ public class JeuOthello extends Jeu {
 			res=-1;
 		}
 		return res;
-	}
-	
-	
+	}	
 
-	public static void main(String[] args) {
-		
-		
+	public static void main(String[] args) {		
 		JeuOthello jeu = new JeuOthello();
 		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
@@ -167,7 +163,6 @@ public class JeuOthello extends Jeu {
 		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_1 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));*/
 		//jeu.lancer();
-		
 	}
 	
 }

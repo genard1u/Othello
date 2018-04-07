@@ -78,7 +78,8 @@ public class PartieOthello extends Partie {
 	@Override
 	protected void aucunSuccesseur(boolean aff) {
 		passeSonTour ++;
-		if(aff){
+		
+		if (aff) {
 			System.out.println(AUCUN_SUCCESSEUR);
 		}
 	}
@@ -146,17 +147,17 @@ public class PartieOthello extends Partie {
 
 	private void joueurSuivant(boolean aff) {
 		assert estTerminee() == false;
+		
 		if (joueurCourant == j1) {
 			joueurCourant = j2;
 		}
 		else {
 			joueurCourant = j1;
 		}
+		
 		if (joueurCourant.estHumain && aff){
 			System.out.println(AU_SUIVANT);
-		}
-		
-	
+		}	
 	}
 
 	public  Joueur getGagnant() {

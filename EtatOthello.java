@@ -42,6 +42,8 @@ public class EtatOthello extends Etat {
 	}
 	
     private void premiersPions() {
+    	assert T > 1;
+		
     	setPion(T/2, T/2, Pion.BLANC);
     	setPion(T/2-1, T/2, Pion.NOIR);
     	setPion(T/2-1, T/2-1, Pion.BLANC);
@@ -213,12 +215,12 @@ public class EtatOthello extends Etat {
 	}
 	
 	public boolean estVide(int x, int y) {
-		if (x>=0 && x<T && y>=0 && y<T){
-			return plateau[x][y] == Pion.RIEN;
-		}
-		else {
-			return false;
-		}
+		assert x >= 0;
+		assert y >= 0;
+		assert x < T;
+		assert y < T;
+		
+		return plateau[x][y] == Pion.RIEN;
 	}
 	
 	public int nbJeton(Pion couleur) {

@@ -1,9 +1,8 @@
-/**
- * 
- */
 package othello;
 
 import java.util.ArrayList;
+
+import othello.eval.Eval0;
 
 /**
  * @author Collignon Valentin
@@ -11,8 +10,15 @@ import java.util.ArrayList;
  */
 public abstract class Etat {
 
+	protected Eval0 eval0;
+	
+	
 	protected Etat() {}
-		
+	
+	protected Etat(Eval0 e) {
+		eval0 = e;
+	}
+	
 	public boolean equals(Etat e){
 		return toString().equals(e.toString());
 	}
@@ -28,24 +34,34 @@ public abstract class Etat {
 		return estFinal;
 	}
 	
-	public Etat minimax(Joueur j, int c) {
-		ArrayList<Etat> S = successeurs(j);
+	public Etat minimax(Joueur courant, Joueur j1, Joueur j2, int c) {
+		ArrayList<Etat> S = successeurs(courant);
 		Etat eSortie = null;
-		float score = 0;
 		float score_max = Float.MIN_VALUE;
-		for (Etat e : S){
-			score = evaluation(c,j);
-			if (score >= score_max)
-			{
-				eSortie = e;
-				score_max= score ;
+		float score_min = Float.MAX_VALUE;
+		float score = 0;
+		
+		for (Etat e : S) {
+			score = evaluation(courant, j1, j2, c);
+			
+			if (j1.estMachine()) {
+				if (score >= score_max) {
+					eSortie = e;
+					score_max = score ;
+				}
+			}
+			else {
+				if (score <= score_min) {
+					eSortie = e;
+					score_min = score;
+				}
 			}
 		}
 			
 		return eSortie;
 	}
 	
-	public float evaluation(int c,Joueur j) {
+	public float evaluation(Joueur courant, Joueur j1, Joueur j2, int c) {
 		Joueur jSuivant = Partie.getJoueurSuivant(j);
 		ArrayList<Etat> S;
 		float score = 0;
@@ -101,20 +117,30 @@ public abstract class Etat {
 		}
 	}
 	
-	public Etat minimax_alpha_beta(Joueur j, int c ) {
-		ArrayList<Etat> S = successeurs(j);
+	public Etat minimax_alpha_beta(Joueur courant, Joueur j1, Joueur j2, int c) {
+		ArrayList<Etat> S = successeurs(courant);
 		Etat eSortie = null;
-		float score = 0;
+		float score_min = Float.MAX_VALUE;
 		float score_max = Float.MIN_VALUE;
-		for (Etat e : S){
-			score = evaluation_alpha_beta(c,j,Float.MIN_VALUE,Float.MAX_VALUE);
-			if (score >= score_max)
-			{
-				eSortie = e;
-				score_max= score ;
-			}
-		}
+		float score = 0;
+		
+		for (Etat e : S) {
+			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
+			if (j1.estMachine()) {
+				if (score >= score_max) {
+					eSortie = e;
+					score_max = score ;
+				}
+			}
+			else {
+				if (score <= score_min) {
+					eSortie = e;
+					score_min = score;
+				}
+			}
+		}			
+		
 		return eSortie;
 	}
 	
@@ -185,5 +211,6 @@ public abstract class Etat {
 	public abstract int eval01();
 	public abstract int eval02();
 	public abstract int eval03();
+	public abstract int eval04();
 	
 }

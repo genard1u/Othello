@@ -4,14 +4,13 @@ import othello.eval.Eval0;
 
 public abstract class Partie {
 
-	protected static Etat etat;
+	protected Etat etat;
 	
-	protected static Joueur j1;
-	protected static Joueur j2;
+	protected Joueur j1;
+	protected Joueur j2;
 	
-	protected static Joueur joueurCourant;
-	protected static Eval0 eval0;
-	protected static Joueur gagnant ;
+	protected Joueur joueurCourant;
+	protected Joueur gagnant;
 	
 	
 	public Partie() {}
@@ -25,22 +24,26 @@ public abstract class Partie {
 	protected abstract void aucunSuccesseur(boolean aff);
 	protected abstract boolean estTerminee();
 	
-	public Joueur lancer(int c, boolean aff,Eval0... eval0s) {
+	public Joueur lancer(int c, boolean aff, Eval0... eval0s) {
 		joueurCourant = j1;
+		
 		while (!estTerminee()) {
-			tour(c,aff,eval0s);
+			tour(c, aff, eval0s);
 		}
-		gagnant = getGagnant ();
+		
+		gagnant = getGagnant();
+		
 		return getGagnant();
 	}
 	
-	protected abstract void tour(int c, boolean aff,Eval0... eval0s);
+	protected abstract void tour(int c, boolean aff, Eval0... eval0s);	
 	public abstract Joueur getGagnant();
-	 public static Joueur getJoueurCourant(){
+	 
+	public Joueur getJoueurCourant(){
 		 return joueurCourant;
 	 }
 
-	public static Joueur getJoueurSuivant() {
+	public Joueur getJoueurSuivant() {
 		if (joueurCourant == j1) {
 			return j2;
 		}
@@ -49,20 +52,20 @@ public abstract class Partie {
 		}
 	}
 
-	public static Eval0 getEval0() {
-		return eval0;
-	}
-
-	public static Joueur getJoueurSuivant(Joueur j) {
+	public Joueur getJoueurSuivant(Joueur j) {
 		if (j == j1) {
 			return j2;
 		}
-		else {
+		else if (j == j2) {
 			return j1;
 		}
+		
+		assert false;
+		
+		return null;
 	}
 
-	public static boolean isGagnant(Joueur j) {
+	public boolean isGagnant(Joueur j) {
 		return j == gagnant;
 	}
 	
