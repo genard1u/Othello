@@ -9,7 +9,7 @@ public abstract class Jeu {
 	
 	
 	protected abstract boolean continuer();
-	public abstract void lancer();
+	public abstract void lancer( boolean af);
 	
 	protected String score() {
 		StringBuilder score = new StringBuilder();
