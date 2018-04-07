@@ -38,6 +38,23 @@ public abstract class Etat {
 		return estFinal;
 	}
 	
+	public abstract boolean estPremier(Joueur j);
+	
+	public Joueur joueurSuivant(Joueur courant, Joueur j1, Joueur j2) {
+		Joueur suivant = null;
+		
+		if (courant == j1) {
+			suivant = j2;
+		}
+		else if (courant == j2) {
+			suivant = j1;
+		}
+		
+		assert suivant != null;
+		
+		return suivant;
+	}
+	
 	public Etat minimax(Joueur courant, Joueur j1, Joueur j2, int c) {
 		ArrayList<Etat> S = successeurs(courant);
 		Etat eSortie = null;
@@ -48,7 +65,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation(courant, j1, j2, c);
 			
-			if (courant.estMachine()) {
+			if (estPremier(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;
@@ -66,27 +83,26 @@ public abstract class Etat {
 	}
 	
 	public float evaluation(Joueur courant, Joueur j1, Joueur j2, int c) {
-		Joueur jSuivant = Partie.getJoueurSuivant(j);
-		ArrayList<Etat> S;
-		float score = 0;
-		float score_max = 0;
-		float score_min = 0;
+		Joueur suivant = joueurSuivant(courant, j1, j2);
+		float score = 0f;
+		float score_max = 0f;
+		float score_min = 0f;
 		
 		if (estFinal(courant)) {
 			
 		}
 		
 		if (c == 0) {
-			return Partie.getEval0().eval(this);
+			return eval0.eval(this);
 		}
 		
-		S = successeurs(j);
+		ArrayList<Etat> S = successeurs(courant);
 		
-		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
+		if (estPremier(courant)) {
 			score_max = Float.MIN_VALUE;
 			
-			for (Etat s : S) {
-				score_max = Math.max(score_max, s.evaluation(c-1,jSuivant));
+			for (Etat e : S) {
+				score_max = Math.max(score_max, e.evaluation(suivant, j1, j2, c - 1));
 			}
 			
 			return score_max;
@@ -94,8 +110,8 @@ public abstract class Etat {
 		else {
 			score_min = Float.MAX_VALUE;
 			
-			for (Etat s : S) {
-				score_max = Math.min(score_max, s.evaluation(c-1,jSuivant));
+			for (Etat e : S) {
+				score_min = Math.min(score_max, e.evaluation(suivant, j1, j2, c - 1));
 			}
 			
 			return score_min;
@@ -112,7 +128,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
-			if (courant.estMachine()) {
+			if (estPremier(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;

@@ -74,6 +74,20 @@ public class EtatOthello extends Etat {
 		plateau[x][y] = p;
 	}
 	
+	public boolean estPremier(Joueur j) {
+		JoueurOthello jo = (JoueurOthello) j;
+		boolean estPremier = false;
+		
+		if (jo.couleur() == Pion.NOIR) {
+			estPremier = true;
+		}
+		else {
+			estPremier = false;
+		}
+		
+		return estPremier;
+	}
+	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
 		for(int i=-1;i<2;i++){
