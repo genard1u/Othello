@@ -253,23 +253,47 @@ public class EtatOthello extends Etat {
 		return 0;
 	}
 	
+	public int centreImpair(int y, int x) {
+		int centre = T / 2 + 1;	    
+	    
+		return distanceDeManhattan(centre, x, centre, y);
+	}
+	
+	public int centrePair(int y1, int x1) {
+		assert T > 1;
+			
+		int x2 = 0;
+		int y2 = 0;
+		
+		if (x1 < T / 2) {
+			x2 = T / 2 - 1;
+		}
+		else {
+			x2 = T / 2;
+		}
+		
+		if (y1 < T / 2) {
+			y2 = T / 2 - 1;
+		}
+		else {
+			y2 = T / 2;
+		}
+		
+		return distanceDeManhattan(x2, x1, y2, y1);
+	}
+	
 	public int[][] forcesDesPositions() {
 		int[][] forces = new int[T][T];
-	    int centre = 0;
-	    
-	    if ((T % 2) == 1) {
-	    	centre = T / 2 + T % 2;
-	    }
-	    
-	    int xMilieu = centre;
-	    int yMilieu = centre;
 	    
 	    for (int i = 0; i < T * T; i ++) {
 	    	int y = i / T;
 	    	int x = i % T;
 	    	
-	    	if ((T % 2) == 1) {
-	    		forces[y][x] = distanceDeManhattan(xMilieu, x, yMilieu, y);
+	    	if ((T % 2) == 0) {
+	    		forces[y][x] = centrePair(y, x);
+	    	}
+	    	else {
+	    		forces[y][x] = centreImpair(y, x);
 	    	}
 	    }
 		
