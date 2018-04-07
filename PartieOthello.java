@@ -94,7 +94,6 @@ public class PartieOthello extends Partie {
 			}
 		}else{
 			System.out.println(etat.toString());
-			System.out.println(((JoueurOthello)joueurCourant).couleur());
 			if ( eval0s.length == 2){
 				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
 					setEval0(eval0s[0]);
@@ -102,7 +101,7 @@ public class PartieOthello extends Partie {
 					setEval0(eval0s[1]);
 				}
 			}
-			Etat e = etat.minimax(joueurCourant, c);
+			Etat e = etat.minimax_alpha_beta(joueurCourant, c);
 			if (e == null) {
 				aucunSuccesseur();
 			}

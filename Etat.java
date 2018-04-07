@@ -101,7 +101,7 @@ public abstract class Etat {
 		}
 	}
 	
-	public Etat minimax_alpha_beta(Joueur j, int c) {
+	public Etat minimax_alpha_beta(Joueur j, int c ) {
 		ArrayList<Etat> S = successeurs(j);
 		Etat eSortie = null;
 		float score = 0;
@@ -118,7 +118,7 @@ public abstract class Etat {
 		return eSortie;
 	}
 	
-	private float evaluation_alpha_beta(int c, Joueur j, float minValue,float maxValue) 
+	private float evaluation_alpha_beta(int c, Joueur j, float alpha,float beta) 
 	{
 		Joueur jSuivant = Partie.getJoueurSuivant(j);
 		ArrayList<Etat> S;
@@ -156,7 +156,11 @@ public abstract class Etat {
 			score_max = Float.MIN_VALUE;
 			
 			for (Etat s : S) {
-				score_max = Math.max(score_max, s.evaluation(c-1,jSuivant));
+				score_max = Math.max(score_max, s.evaluation_alpha_beta(c-1,jSuivant,alpha,beta));
+				if (score_max>=beta){
+					return score_max;
+				}
+				alpha = Math.max(alpha, score_max);
 			}
 			
 			return score_max;
@@ -165,7 +169,11 @@ public abstract class Etat {
 			score_min = Float.MAX_VALUE;
 			
 			for (Etat s : S) {
-				score_max = Math.min(score_max, s.evaluation(c-1,jSuivant));
+				score_max = Math.min(score_max, s.evaluation_alpha_beta(c-1, jSuivant, alpha, beta));
+				if(score_min<= alpha){
+					return score_min;
+				}
+				beta = Math.min(beta, score_min);
 			}
 			
 			return score_min;
