@@ -121,8 +121,8 @@ public class PartieOthello extends Partie {
 		}
 	}
 	
-	private void setEval0(Eval0 eval0) {
-		this.eval0 = eval0;
+	private void setEval0(Eval0 eval) {
+		this.eval0 = eval;
 	}
 
 	private void selectionSucesseur(ArrayList<Etat> succ) {
