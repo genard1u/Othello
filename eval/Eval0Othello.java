@@ -5,12 +5,10 @@ import othello.EtatOthello;
 
 public abstract class  Eval0Othello extends Eval0 {
 
-	public Eval0Othello() {
-	}
+	public Eval0Othello() {}
 
 	@Override
 	public int eval(Etat etat) {
-		// TODO Auto-generated method stub
 		return eval0((EtatOthello) etat);
 	}
 	

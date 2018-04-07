@@ -38,7 +38,6 @@ public abstract class Joueur {
 	}
 
 	public void setHumain(boolean b) {
-		// TODO Auto-generated method stub
 		estHumain = b ;
 	}
 	

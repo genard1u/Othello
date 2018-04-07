@@ -252,13 +252,54 @@ public class EtatOthello extends Etat {
 		}
 		return 0;
 	}
+	
+	public int[][] forcesDesPositions() {
+		int[][] forces = new int[T][T];
+	    int centre = 0;
+	    
+	    if ((T % 2) == 1) {
+	    	centre = T / 2 + T % 2;
+	    }
+	    
+	    int xMilieu = centre;
+	    int yMilieu = centre;
+	    
+	    for (int i = 0; i < T * T; i ++) {
+	    	int y = i / T;
+	    	int x = i % T;
+	    	
+	    	if ((T % 2) == 1) {
+	    		forces[y][x] = distanceDeManhattan(xMilieu, x, yMilieu, y);
+	    	}
+	    }
+		
+		return forces;
+	}
+	
+	public int forces(Pion couleur) {
+		int[][] forces = forcesDesPositions();
+		int eval = 0;
+		
+		for (int i = 0; i < T; i ++) {
+    		for (int j = 0; j < T; j ++) {
+    			if (plateau[i][j] == couleur) {
+    				eval += forces[i][j];
+    			}
+    		}
+    	}
+		
+		return eval;
+	}
+	
+	public int distanceDeManhattan(int i1, int j1, int i2, int j2) {
+		return Math.abs(i1 - i2) + Math.abs(j1 - j2);
+	}
+	
 	private boolean estCoin(int i, int j) {
-		// TODO Auto-generated method stub
 		return ((i == 0) || (i == T-1)) && ((j == 0) || (j == T-1));
 	}
 
 	private boolean estBord(int i, int j) {
-		// TODO Auto-generated method stub
 		return (i == 0) || (i == T-1) || (j == 0) || (j == T-1);
 	}
 
@@ -274,7 +315,10 @@ public class EtatOthello extends Etat {
 		return (valJeton(Pion.NOIR)+nbJeton(Pion.NOIR))-(valJeton(Pion.BLANC)+nbJeton(Pion.BLANC));
 	}
 	
-
+    public int eval04() {
+    	return forces(Pion.NOIR) - forces(Pion.BLANC);
+    }
+    
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
 		JoueurOthello j0 = new JoueurOthello("j1", Pion.NOIR);
