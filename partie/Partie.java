@@ -26,11 +26,11 @@ public abstract class Partie {
 	protected abstract void aucunSuccesseur(boolean aff);
 	protected abstract boolean estTerminee();
 	
-	public Joueur lancer(int c, boolean aff, Eval0... eval0s) {
+	public Joueur lancer(int c, boolean affichage, Eval0 ... eval0s) {
 		joueurCourant = j1;
 		
 		while (!estTerminee()) {
-			tour(c, aff, eval0s);
+			tour(c, affichage, eval0s);
 		}
 		
 		gagnant = getGagnant();
@@ -38,34 +38,8 @@ public abstract class Partie {
 		return getGagnant();
 	}
 	
-	protected abstract void tour(int c, boolean aff, Eval0... eval0s);	
+	protected abstract void tour(int c, boolean affichage, Eval0 ... eval0s);	
 	public abstract Joueur getGagnant();
-	 
-	public Joueur getJoueurCourant(){
-		 return joueurCourant;
-	 }
-
-	public Joueur getJoueurSuivant() {
-		if (joueurCourant == j1) {
-			return j2;
-		}
-		else {
-			return j1;
-		}
-	}
-
-	public Joueur getJoueurSuivant(Joueur j) {
-		if (j == j1) {
-			return j2;
-		}
-		else if (j == j2) {
-			return j1;
-		}
-		
-		assert false;
-		
-		return null;
-	}
 
 	public boolean estGagnant(Joueur j) {
 		return j == gagnant;

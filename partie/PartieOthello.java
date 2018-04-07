@@ -33,6 +33,22 @@ public class PartieOthello extends Partie {
 		passeSonTour = 0;
 	}
 	
+	public EtatOthello etat() {
+		return (EtatOthello) super.etat;
+	}
+	
+	public JoueurOthello j1() {
+		return (JoueurOthello) super.j1;
+	}
+	
+	public JoueurOthello j2() {
+		return (JoueurOthello) super.j2;
+	}
+	
+	public JoueurOthello joueurCourant() {
+		return (JoueurOthello) super.joueurCourant;
+	}
+	
 	public boolean joueursBloques() {
 		return passeSonTour == 2;
 	}
@@ -62,34 +78,35 @@ public class PartieOthello extends Partie {
     
     @Override
     protected void allerSurUnSuccesseur() {
+    	EtatOthello etat = etat();
     	passeSonTour = 0;
 		
-		Pion couleur = ((JoueurOthello) joueurCourant).couleur();
+		Pion couleur = joueurCourant().couleur();
 		int[] coords = entrerCoords();
 		int x = coords[0];
 		int y = coords[1];
 		
-		while (!((EtatOthello)etat).estVide(x, y) || !((EtatOthello) etat).successeur(x, y, couleur)) {
+		while (! etat.estVide(x, y) || ! etat.successeur(x, y, couleur)) {
 			System.out.println(COORDS_INVALIDES);
 			coords = entrerCoords();
 			x = coords[0];
 			y = coords[1];
 		}
 		
-		((EtatOthello) etat).setPion(x, y, couleur);
-		((EtatOthello) etat).retourner(x, y,couleur);
+		etat.setPion(x, y, couleur);
+		etat.retourner(x, y,couleur);
 	}
 
 	@Override
-	protected void aucunSuccesseur(boolean aff) {
+	protected void aucunSuccesseur(boolean affichage) {
 		passeSonTour ++;
 		
-		if (aff) {
+		if (affichage) {
 			System.out.println(AUCUN_SUCCESSEUR);
 		}
 	}
 	
-	protected void tour(int c, boolean aff, Eval0... eval0s) {
+	protected void tour(int c, boolean affichage, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
 		
 		if (joueurCourant.estHumain()) {
@@ -99,26 +116,27 @@ public class PartieOthello extends Partie {
 				allerSurUnSuccesseur();
 			}
 			else {
-				aucunSuccesseur(aff);
+				aucunSuccesseur(affichage);
 			}
 		}
 		else{
-			if (aff) {
+			if (affichage) {
 				System.out.println(etat.toString());
 			}
 			
 			if (eval0s.length == 2) {
-				if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
+				if (((JoueurOthello) joueurCourant).couleur() == Pion.NOIR){
 					setEval0(eval0s[0]);
 				}
 				else{
 					setEval0(eval0s[1]);
 				}
 			}
-			Etat e = etat.minimax_alpha_beta(joueurCourant, c);
+			
+			Etat e = etat.minimax_alpha_beta(joueurCourant, j1, j2, c);
 			
 			if (e == null) {
-				aucunSuccesseur( aff);
+				aucunSuccesseur(affichage);
 			}
 			else {
 				passeSonTour = 0;
@@ -126,8 +144,8 @@ public class PartieOthello extends Partie {
 			}
 		}
 		
-		if (!estTerminee()){
-			joueurSuivant(aff);
+		if (!estTerminee()) {
+			joueurSuivant(affichage);
 		}
 	}
 	
@@ -138,7 +156,7 @@ public class PartieOthello extends Partie {
 	private void selectionSucesseur(ArrayList<Etat> succ) {
 		Etat m = succ.get(0);
 		
-		if (((JoueurOthello) joueurCourant).couleur()==Pion.NOIR){
+		if (((JoueurOthello) joueurCourant).couleur() == Pion.NOIR) {
 			for (Etat e : succ){
 				if (eval0.eval(e) > eval0.eval(m)){
 					m = e ;
@@ -156,7 +174,7 @@ public class PartieOthello extends Partie {
 		etat = m;
 	}
 
-	private void joueurSuivant(boolean aff) {
+	private void joueurSuivant(boolean affichage) {
 		assert estTerminee() == false;
 		
 		if (joueurCourant == j1) {
@@ -166,15 +184,18 @@ public class PartieOthello extends Partie {
 			joueurCourant = j1;
 		}
 		
-		if (joueurCourant.estHumain() && aff) {
+		if (joueurCourant.estHumain() && affichage) {
 			System.out.println(AU_SUIVANT);
 		}	
 	}
 
 	public Joueur getGagnant() {
+		EtatOthello etat = etat();
+		JoueurOthello j1 = j1(), j2 = j2();
 		int cmpJetonJ1 = 0 , cmpJetonJ2 = 0;
-	    cmpJetonJ1 = ((EtatOthello)etat).nbJetons(((JoueurOthello)j1).couleur());
-	    cmpJetonJ2 = ((EtatOthello)etat).nbJetons(((JoueurOthello)j2).couleur());
+		
+	    cmpJetonJ1 = etat.nbJetons(j1.couleur());
+	    cmpJetonJ2 = etat.nbJetons(j2.couleur());
 	    
 		if (cmpJetonJ1 < cmpJetonJ2) {
 			return j2;

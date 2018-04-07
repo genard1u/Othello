@@ -12,7 +12,7 @@ public abstract class Jeu {
 	
 	
 	protected abstract boolean continuer();
-	public abstract void lancer(boolean af);
+	public abstract void lancer(boolean affichage);
 	
 	protected String score() {
 		StringBuilder score = new StringBuilder(30);

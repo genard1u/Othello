@@ -101,10 +101,10 @@ public class EtatOthello extends Etat {
 	 * Pour Othello, le premier joueur est celui qui a les noirs.
 	 */
 	public boolean estPremier(Joueur j) {
-		JoueurOthello jo = (JoueurOthello) j;
+		JoueurOthello joueur = (JoueurOthello) j;
 		boolean estPremier = false;
 		
-		if (jo.couleur() == Pion.NOIR) {
+		if (joueur.couleur() == Pion.NOIR) {
 			estPremier = true;
 		}
 		else {
@@ -137,7 +137,7 @@ public class EtatOthello extends Etat {
 		
 		for(int i = -1; i < 2; i ++) {
 			for (int j = -1; j < 2; j ++) {		
-				if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN){
+				if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
 					int cx = x + i, cy = y + j;
 					int[] r = verifOuRetourn(0, cx, cy, i, j, p);
 					
@@ -175,15 +175,15 @@ public class EtatOthello extends Etat {
 	}
 	
 	public void retourner(int x, int y, Pion p) {
-		for (int i=-1; i<2; i++) {
-			for (int j=-1; j<2; j++) {
+		for (int i = -1; i < 2; i ++) {
+			for (int j = -1; j < 2; j ++) {
 				if (verifBord(x, y)) {
 					if (verifBord(x+i, y+j) && plateau[x+i][y+j]!= p && plateau[x+i][y+j]!= Pion.RIEN){
-						int cx = x+i, cy = y+j;
+						int cx = x + i, cy = y + j;
 						int[] r = verifOuRetourn(0,cx,cy,i,j,p);
 						
 						if (((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) && plateau[r[0]][r[1]]==p) {
-							 r=verifOuRetourn(1,r[0],r[1],i,j,p);
+							 r = verifOuRetourn(1,r[0],r[1],i,j,p);
 						}
 					}
 				}
@@ -191,26 +191,26 @@ public class EtatOthello extends Etat {
 		}
 	}
 	
-	public int[] verifOuRetourn(int mode , int x, int y, int i,int j,Pion p){
+	public int[] verifOuRetourn(int mode, int x, int y, int i, int j, Pion p) {
 		int[] res= new int[2];
 		int cx = x, cy = y;
 		
 		if (mode == 1) {
-			cx = cx-i;
-			cy = cy-j;
+			cx = cx - i;
+			cy = cy - j;
 		}
 		
 		if (i != 0 || j != i) {
 			while (verifBord(cx, cy) && (plateau[cx][cy] != p && plateau[cx][cy] != Pion.RIEN)) {
 				switch (mode) {
 				case 0:
-					cx = cx+i;
-					cy = cy+j;
+					cx = cx + i;
+					cy = cy + j;
 					break;
 				case 1:
 					setPion(cx, cy,p);
-					cx = cx-i;
-					cy = cy-j;
+					cx = cx - i;
+					cy = cy - j;
 					break;
 				default:
 					break;
@@ -289,39 +289,39 @@ public class EtatOthello extends Etat {
 	}
 	
 	public int nbJetons(Pion couleur) {
-		int cmp = 0;
+		int jetons = 0;
 		
 		for (int i = 0; i < T; i ++) {
 			for (int j = 0; j < T; j++) {
 				if (plateau[i][j] == couleur) {
-					cmp ++;
+					jetons ++;
 				}
 			}
 		}
 		
-		return cmp;
+		return jetons;
 	}
 	
 	public int valJeton(Pion p) {
-		int cmp = 0;
+		int valeursCumulees = 0;
 		
 		for (int i = 0; i < T; i ++) {
 			for (int j = 0; j < T; j++) {
 				if (plateau[i][j] == p) {
-					cmp ++;
+					valeursCumulees ++;
 					
 					if(estBord(i,j)){
-						cmp ++;
+						valeursCumulees ++;
 						
 						if(estCoin(i,j)) {
-							cmp ++;
+							valeursCumulees ++;
 						}
 					}
 				}
 			}
 		}
 		
-		return cmp;
+		return valeursCumulees;
 	}
 	
 	public int centreImpair(int y, int x) {
