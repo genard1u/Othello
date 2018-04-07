@@ -9,7 +9,7 @@ public class Eval0Othello_2 extends Eval0Othello {
 
 	@Override
 	public int eval0(EtatOthello etat) {
-		return etat.valJeton(Pion.NOIR)-etat.valJeton(Pion.BLANC);
+		return -1;//etat.valJeton(Pion.NOIR)-etat.valJeton(Pion.BLANC);
 	}
 
 }

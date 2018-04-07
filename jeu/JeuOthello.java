@@ -126,14 +126,17 @@ public class JeuOthello extends Jeu {
 		Joueur j = p.lancer(profondeur,false,e1,e2);
 		 
 		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
+			System.out.println("11");
 			res++;
 		}else{
+			System.out.println("-11");
 			res--;
 		}
 		/*((JoueurOthello)(p.j1)).setPion(Pion.BLANC);
 		((JoueurOthello)(p.j2)).setPion(Pion.NOIR);*/
-		p = new PartieOthello(jo2,jo1 );
-		j = p.lancer(profondeur,false, e1,e2);
+		 p = new PartieOthello(jo1,jo2 );
+		 
+		j = p.lancer(profondeur,false, e2,e1);
 		 
 		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
 			res--;
