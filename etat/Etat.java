@@ -66,7 +66,7 @@ public abstract class Etat {
 		Etat eSortie = null;
 		float score_max = Float.MIN_VALUE;
 		float score_min = Float.MAX_VALUE;
-		float score = 0;
+		float score = 0f;
 		
 		for (Etat e : S) {
 			score = evaluation(courant, j1, j2, c);

@@ -125,12 +125,15 @@ public class JeuOthello extends Jeu {
 	}
 	
 	@Override
-	public void lancer(boolean aff) {        
+	public void lancer(boolean affichage) {        
 		do {
 			partieCourante = new PartieOthello((JoueurOthello) j1, (JoueurOthello) j2);
-			Joueur gagnant = partieCourante.lancer(1, aff);
+			Joueur gagnant = partieCourante.lancer(1, affichage);
 		
-			gagnant.victoire();
+			if (gagnant != null) {
+				gagnant.victoire();
+			}
+			
 			afficherScore(); 			
 		} while (continuer());
 	}
@@ -139,24 +142,31 @@ public class JeuOthello extends Jeu {
 		int gainsCumules = 0;
 		JoueurOthello jo1 = new JoueurOthello("m1", false, Pion.NOIR);
 		JoueurOthello jo2 = new JoueurOthello("m2", false, Pion.BLANC);
-		PartieOthello p = new PartieOthello(jo1, jo2);
-		Joueur j = p.lancer(profondeur, false, eval01, eval02);
+		PartieOthello partie = null; 
+		JoueurOthello gagnant = null;
+		
+		partie = new PartieOthello(jo1, jo2);
+		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval01, eval02);
 		 
-		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
-			gainsCumules ++;
-		}
-		else {
-			gainsCumules --;
+		if (gagnant != null) {
+		    if (gagnant.couleur() == Pion.NOIR) {
+			    gainsCumules ++;
+		    }
+		    else {
+			    gainsCumules --;
+		    }
 		}
 		
-		p = new PartieOthello(jo1, jo2); 
-		j = p.lancer(profondeur, false, eval02, eval01);
+		partie = new PartieOthello(jo1, jo2); 
+		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval02, eval01);
 		 
-		if (((JoueurOthello)j).couleur() == Pion.NOIR) {
-			gainsCumules --;
-		}
-		else {
-			gainsCumules ++;
+		if (gagnant != null) {
+		    if (gagnant.couleur() == Pion.NOIR) {
+			    gainsCumules ++;
+		    }
+		    else {
+			    gainsCumules --;
+		    }
 		}
 		
 		if (gainsCumules > 1) {
@@ -164,6 +174,9 @@ public class JeuOthello extends Jeu {
 		}
 		else if (gainsCumules < -1) {
 			gainsCumules = -1;
+		}
+		else {
+			gainsCumules = 0;
 		}
 		
 		return gainsCumules;

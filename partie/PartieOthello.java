@@ -7,8 +7,6 @@ import othello.Pion;
 import othello.etat.Etat;
 import othello.etat.EtatOthello;
 import othello.eval.Eval0;
-import othello.eval.Eval0Othello_1;
-import othello.eval.Eval0Othello_3;
 import othello.joueur.Joueur;
 import othello.joueur.JoueurOthello;
 
@@ -26,7 +24,8 @@ public class PartieOthello extends Partie {
 	public PartieOthello(JoueurOthello un, JoueurOthello deux) {
 		super(un, deux);
 		
-		assert un.couleur() != deux.couleur();
+		assert un.couleur() == Pion.NOIR;
+		assert deux.couleur() == Pion.BLANC;
 		
 		etat = new EtatOthello();
 		joueurCourant = j1;
@@ -53,6 +52,9 @@ public class PartieOthello extends Partie {
 		return passeSonTour == 2;
 	}
 	
+	/**
+	 * @return partie terminée si les deux joueurs sont bloqués
+	 */
 	public boolean estTerminee() {
 		boolean estTerminee = false;
 		
@@ -63,7 +65,8 @@ public class PartieOthello extends Partie {
 		return estTerminee;
 	}
 	
-    private int[] entrerCoords() {
+    @SuppressWarnings("resource")
+	private int[] entrerCoords() {
 		Scanner sc = new Scanner(System.in);
 		int[] coords = new int[2];
 		
@@ -94,7 +97,7 @@ public class PartieOthello extends Partie {
 		}
 		
 		etat.setPion(x, y, couleur);
-		etat.retourner(x, y,couleur);
+		etat.retourner(x, y, couleur);
 	}
 
 	@Override
@@ -119,17 +122,17 @@ public class PartieOthello extends Partie {
 				aucunSuccesseur(affichage);
 			}
 		}
-		else{
+		else {
 			if (affichage) {
 				System.out.println(etat.toString());
 			}
 			
 			if (eval0s.length == 2) {
-				if (((JoueurOthello) joueurCourant).couleur() == Pion.NOIR){
-					setEval0(eval0s[0]);
+				if (joueurCourant().couleur() == Pion.NOIR) {
+					etat.setEval0(eval0s[0]);
 				}
-				else{
-					setEval0(eval0s[1]);
+				else {
+					etat.setEval0(eval0s[1]);
 				}
 			}
 			
@@ -148,31 +151,6 @@ public class PartieOthello extends Partie {
 			joueurSuivant(affichage);
 		}
 	}
-	
-	private void setEval0(Eval0 eval) {
-		eval0 = eval;
-	}
-
-	private void selectionSucesseur(ArrayList<Etat> succ) {
-		Etat m = succ.get(0);
-		
-		if (((JoueurOthello) joueurCourant).couleur() == Pion.NOIR) {
-			for (Etat e : succ){
-				if (eval0.eval(e) > eval0.eval(m)){
-					m = e ;
-				}
-			}
-		}
-		else {
-			for (Etat e : succ){
-				if (eval0.eval(e) < eval0.eval(m)){
-					m = e ;
-				}
-			}
-		}
-		
-		etat = m;
-	}
 
 	private void joueurSuivant(boolean affichage) {
 		assert estTerminee() == false;
@@ -189,20 +167,34 @@ public class PartieOthello extends Partie {
 		}	
 	}
 
-	public Joueur getGagnant() {
-		EtatOthello etat = etat();
+	/**
+	 * @return joueur gagnant (null s'il n'y en a aucun)
+	 */
+	public Joueur getGagnant() {	
 		JoueurOthello j1 = j1(), j2 = j2();
-		int cmpJetonJ1 = 0 , cmpJetonJ2 = 0;
+		JoueurOthello gagnant = null;
+		float gains = etat.valeurFinDePartie();
 		
-	    cmpJetonJ1 = etat.nbJetons(j1.couleur());
-	    cmpJetonJ2 = etat.nbJetons(j2.couleur());
-	    
-		if (cmpJetonJ1 < cmpJetonJ2) {
-			return j2;
+		assert j1.couleur() != j2.couleur();
+		
+		if (gains == Float.MAX_VALUE) {
+			if (j1.couleur() == Pion.NOIR) {
+				gagnant = j1;
+			}
+			else {
+				gagnant = j2;
+			}
 		}
-		else {
-			return j1;
+		else if (gains == Float.MIN_VALUE) {
+			if (j1.couleur() == Pion.NOIR) {
+				gagnant = j2;
+			}
+			else {
+				gagnant = j1;
+			}
 		}
+		
+		return gagnant;
 	}
 	
 }
