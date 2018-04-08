@@ -28,6 +28,10 @@ public abstract class Partie {
 	protected abstract Joueur gagnant();
 	
 	public Joueur lancer(int c, boolean affichage, Eval0... eval0s) {
+		assert joueurCourant == j1;
+		
+		etat.setEval0(eval0s[0]);
+		
 		while (!estTerminee()) {
 			tour(c, affichage, eval0s);
 		}

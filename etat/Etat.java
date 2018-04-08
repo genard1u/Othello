@@ -139,7 +139,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			Joueur suivant = joueurSuivant(courant, j1, j2);
 			
-			score = evaluation_alpha_beta(suivant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
+			score = evaluation_alpha_beta(suivant, j1, j2, c - 1, Float.MIN_VALUE, Float.MAX_VALUE);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
