@@ -38,7 +38,7 @@ public class EtatOthello extends Etat {
 	}
 	
 	public EtatOthello(EtatOthello e) {
-		super();
+		super(e.getEval0());
 		plateau = e.getPlateau();
 		T = e.getTaille();
 	}

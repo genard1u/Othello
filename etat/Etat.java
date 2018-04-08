@@ -22,7 +22,7 @@ public abstract class Etat {
 	
 	
 	protected Etat() {
-		eval0 = new Eval0Othello_1();
+		eval0 = new Eval0Othello_2();
 	}
 	
 	protected Etat(Eval0 e) {
@@ -81,21 +81,12 @@ public abstract class Etat {
 		
 		assert c > 0;
 		
-		System.out.println("Score maximum : " + score_max);
-		System.out.println("Nombre de successeurs : " + S.size());
-		System.out.println("Joueur maximisant : " + joueurMaximisant(courant));
-		
 		for (Etat e : S) {			
 			score = e.evaluation(suivant, j1, j2, c - 1);
-			System.out.println("Score : " + score);
-			System.out.println("Joueur maximisant : " + joueurMaximisant(courant));
 			
 			if (joueurMaximisant(courant)) {
-				System.out.println("Score : " + score);
-				System.out.println("Score maximum : " + score_max);
 				
 				if (score >= score_max) {
-					System.out.println("Nouveau score maximum: " + score);
 					eSortie = e;
 					score_max = score;
 				}
@@ -116,10 +107,8 @@ public abstract class Etat {
 			return valeurFinDePartie();
 		}
 		
-		System.out.print(this);
 		
 		if (c == 0) {
-			System.out.println("eval0.eval = " + eval0.eval(this));
 			return eval0.eval(this);
 		}
 		
@@ -183,7 +172,6 @@ public abstract class Etat {
 		}
 		
 		if (c == 0) {
-			System.out.println("éval0 : " + eval0.getClass().getName());
 			return eval0.eval(this);
 		}
 		

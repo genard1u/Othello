@@ -129,7 +129,6 @@ public class PartieOthello extends Partie {
 			
 			if (eval0s.length == 2) {
 				if (joueurCourant().couleur() == Pion.NOIR) {
-					System.out.println("éval0 joueur 1 : " + eval0s[0].getClass().getName());
 					etat.setEval0(eval0s[0]);
 				}
 				else {
