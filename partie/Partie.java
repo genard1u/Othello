@@ -12,7 +12,6 @@ public abstract class Partie {
 	protected Joueur j2;
 	
 	protected Joueur joueurCourant;
-	protected Joueur gagnant;
 	
 	
 	protected Partie() {}

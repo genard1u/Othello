@@ -33,9 +33,9 @@ public class JeuOthello extends Jeu {
 		
 		System.out.println(JOUER_OU_EVAL);
 		
-		boolean jouerOuEvaluation = choixBooleen(sc);
+		boolean jeuOuEvaluation = choixBooleen(sc);
 		
-		if (jouerOuEvaluation) {
+		if (jeuOuEvaluation) {
 			System.out.println(DEUX_EVAL0);
 			choixEval0(sc);
 		}

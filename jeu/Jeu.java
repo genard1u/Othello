@@ -14,7 +14,7 @@ public abstract class Jeu {
 	protected abstract boolean continuer();
 	public abstract void lancer(boolean affichage);
 	
-	protected String score() {
+	public String score() {
 		StringBuilder score = new StringBuilder(30);
 		
 		score.append("Joueur " + j1.nomJoueur());
@@ -28,7 +28,7 @@ public abstract class Jeu {
 		return score.toString();
 	} 
 	
-	protected void afficherScore() {
+	public void afficherScore() {
 		System.out.println(score());
 	} 
 	

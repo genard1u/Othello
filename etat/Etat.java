@@ -3,6 +3,7 @@ package othello.etat;
 import java.util.ArrayList;
 
 import othello.eval.Eval0;
+import othello.eval.Eval0Othello_1;
 import othello.joueur.Joueur;
 
 /**
@@ -14,7 +15,9 @@ public abstract class Etat {
 	protected Eval0 eval0;
 	
 	
-	protected Etat() {}
+	protected Etat() {
+		eval0 = new Eval0Othello_1();
+	}
 	
 	protected Etat(Eval0 e) {
 		eval0 = e;
@@ -56,7 +59,7 @@ public abstract class Etat {
 			suivant = j1;
 		}
 		
-		assert suivant != null;
+		assert false;
 		
 		return suivant;
 	}

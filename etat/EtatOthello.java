@@ -20,12 +20,14 @@ public class EtatOthello extends Etat {
 	
 	
 	public EtatOthello() {
+		super();
 		plateau = new Pion[T][T];
 		plateauVide();
 		premiersPions();
 	}
 	
 	public EtatOthello(int taille) {
+		super();
 		T = taille;
 		plateau = new Pion[T][T];
 		plateauVide();
@@ -33,6 +35,7 @@ public class EtatOthello extends Etat {
 	}
 	
 	public EtatOthello(EtatOthello e) {
+		super();
 		plateau = e.getPlateau();
 		T = e.getTaille();
 	}
@@ -98,7 +101,7 @@ public class EtatOthello extends Etat {
 	}
 	
 	/**
-	 * Pour Othello, le premier joueur est celui qui a les noirs.
+	 * le premier joueur qui joue est celui qui a les noirs
 	 */
 	public boolean estPremier(Joueur j) {
 		JoueurOthello joueur = (JoueurOthello) j;
@@ -135,7 +138,7 @@ public class EtatOthello extends Etat {
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
 		
-		for(int i = -1; i < 2; i ++) {
+		for (int i = -1; i < 2; i ++) {
 			for (int j = -1; j < 2; j ++) {		
 				if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
 					int cx = x + i, cy = y + j;
@@ -208,7 +211,7 @@ public class EtatOthello extends Etat {
 					cy = cy + j;
 					break;
 				case 1:
-					setPion(cx, cy,p);
+					setPion(cx, cy, p);
 					cx = cx - i;
 					cy = cy - j;
 					break;
@@ -306,7 +309,7 @@ public class EtatOthello extends Etat {
 		int valeursCumulees = 0;
 		
 		for (int i = 0; i < T; i ++) {
-			for (int j = 0; j < T; j++) {
+			for (int j = 0; j < T; j ++) {
 				if (plateau[i][j] == p) {
 					valeursCumulees ++;
 					
