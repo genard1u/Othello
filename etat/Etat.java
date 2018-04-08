@@ -22,7 +22,7 @@ public abstract class Etat {
 	
 	
 	protected Etat() {
-		eval0 = new Eval0Othello_1();
+		eval0 = new Eval0Othello_3();
 	}
 	
 	protected Etat(Eval0 e) {
