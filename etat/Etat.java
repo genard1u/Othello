@@ -153,8 +153,9 @@ public abstract class Etat {
 					score_min = score;
 				}
 			}
-		}			
-		
+		}		
+		if (eSortie != null)
+			System.out.println(eval0.eval(eSortie));
 		return eSortie;
 	}
 	

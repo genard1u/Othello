@@ -19,7 +19,6 @@ public class PartieOthello extends Partie {
 	private final static String AUCUN_SUCCESSEUR = "Vous ne pouvez plus placer de pion !";
 	
 	private int passeSonTour;
-	private Eval0 eval0;
 	
 	public PartieOthello(JoueurOthello un, JoueurOthello deux) {
 		super(un, deux);
