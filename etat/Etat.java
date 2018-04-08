@@ -154,8 +154,6 @@ public abstract class Etat {
 				}
 			}
 		}		
-		if (eSortie != null)
-			System.out.println(eval0.eval(eSortie));
 		return eSortie;
 	}
 	
@@ -170,11 +168,11 @@ public abstract class Etat {
 		
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
-		
 		if (joueurMaximisant(courant)) {
 			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {
+				e.setEval0(eval0);
 				score_max = Math.max(score_max, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
 				
 				if (score_max >= beta) {
@@ -190,6 +188,7 @@ public abstract class Etat {
 			float score_min = Float.MAX_VALUE;
 			
 			for (Etat e : S) {
+				e.setEval0(eval0);
 				score_min = Math.min(score_min, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
 				
 				if (score_min <= alpha) {

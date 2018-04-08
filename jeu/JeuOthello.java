@@ -166,7 +166,7 @@ public class JeuOthello extends Jeu {
 		JoueurOthello j2 = new JoueurOthello("m2", false, Pion.BLANC);
 		
 		gainsCumules += eval0VsEval0(j1, j2, eval01, eval02, profondeur);
-		System.out.println("\n\n");
+		//System.out.println("\n\n");
 		gainsCumules -= eval0VsEval0(j1, j2, eval02, eval01, profondeur);
 		
 		if (gainsCumules > 1 ){
