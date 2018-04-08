@@ -146,10 +146,8 @@ public class JeuOthello extends Jeu {
 		JoueurOthello gagnant = null;
 		int gain = 0;
 		
-		System.out.println("éval0 joueur 1 : " + eval01.getClass().getName());
-		
 		partie = new PartieOthello(j1, j2);
-		gagnant = (JoueurOthello) partie.lancer(profondeur, true, eval01, eval02);
+		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval01, eval02);
 		 
 		if (gagnant != null) {
 		    if (gagnant.couleur() == Pion.NOIR) {
@@ -182,14 +180,14 @@ public class JeuOthello extends Jeu {
 	}	
 
 	public static void main(String[] args) {		
-		JeuOthello jeu = new JeuOthello("DEBUG");
+		JeuOthello jeu = new JeuOthello();
 		int profondeur = 2;
 		
-	    System.out.println("Eval0Othello_1 vs Eval0Othello_5 :");
+	   /* System.out.println("Eval0Othello_1 vs Eval0Othello_5 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_5(), profondeur));
 		System.out.println();
 		
-		/* System.out.println("Eval0Othello_5 vs Eval0Othello_1 :");
+		 System.out.println("Eval0Othello_5 vs Eval0Othello_1 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_5(), new Eval0Othello_1(), profondeur));
 		System.out.println(); */
 		
