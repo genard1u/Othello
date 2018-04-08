@@ -23,15 +23,16 @@ public abstract class Etat {
 		eval0 = e;
 	}
 	
-	public boolean equals(Etat e){
+	public boolean equals(Etat e) {
 		return toString().equals(e.toString());
 	}
 	
-	public boolean estFinal(Joueur j) {
-		ArrayList<Etat> S = successeurs(j);
+	public boolean estFinal(Joueur j1, Joueur j2) {
+		ArrayList<Etat> S1 = successeurs(j1);
+		ArrayList<Etat> S2 = successeurs(j2);
 		boolean estFinal = false;
 		
-		if (S.size() == 0) {
+		if (S1.size() == 0 && S2.size() == 0) {
 			estFinal = true;
 		}
 		
@@ -66,22 +67,21 @@ public abstract class Etat {
 	
 	public Etat minimax(Joueur courant, Joueur j1, Joueur j2, int c) {
 		ArrayList<Etat> S = successeurs(courant);
+		Joueur suivant = joueurSuivant(courant, j1, j2);
 		Etat eSortie = null;
 		float score_max = Float.MIN_VALUE;
 		float score_min = Float.MAX_VALUE;
 		float score = 0f;
 		
-		assert c >= 0;
+		assert c > 0;
 		
-		for (Etat e : S) {
-			Joueur suivant = joueurSuivant(courant, j1, j2);
-			
-			score = evaluation(suivant, j1, j2, c - 1);
+		for (Etat e : S) {			
+			score = e.evaluation(suivant, j1, j2, c - 1);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
-					score_max = score ;
+					score_max = score;
 				}
 			}
 			else {
@@ -96,7 +96,7 @@ public abstract class Etat {
 	}
 	
 	public float evaluation(Joueur courant, Joueur j1, Joueur j2, int c) {
-		if (estFinal(courant)) {
+		if (estFinal(j1, j2)) {
 			return valeurFinDePartie();
 		}
 		
@@ -129,17 +129,16 @@ public abstract class Etat {
 	
 	public Etat minimax_alpha_beta(Joueur courant, Joueur j1, Joueur j2, int c) {
 		ArrayList<Etat> S = successeurs(courant);
+		Joueur suivant = joueurSuivant(courant, j1, j2);
 		Etat eSortie = null;
 		float score_min = Float.MAX_VALUE;
 		float score_max = Float.MIN_VALUE;
 		float score = 0f;
 		
-		assert c >= 0;
+		assert c > 0;
 		
 		for (Etat e : S) {
-			Joueur suivant = joueurSuivant(courant, j1, j2);
-			
-			score = evaluation_alpha_beta(suivant, j1, j2, c - 1, Float.MIN_VALUE, Float.MAX_VALUE);
+			score = e.evaluation_alpha_beta(suivant, j1, j2, c - 1, Float.MIN_VALUE, Float.MAX_VALUE);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
@@ -153,13 +152,17 @@ public abstract class Etat {
 					score_min = score;
 				}
 			}
-		}			
+		}
+		
+		if (eSortie != null) {
+			// System.out.println(eval0.eval(eSortie));
+		}
 		
 		return eSortie;
 	}
 	
 	public float evaluation_alpha_beta(Joueur courant, Joueur j1, Joueur j2, int c, float alpha, float beta) {
-		if (estFinal(courant)) {
+		if (estFinal(j1, j2)) {
 			return valeurFinDePartie();
 		}
 		
@@ -208,5 +211,6 @@ public abstract class Etat {
 	public abstract int eval02();
 	public abstract int eval03();
 	public abstract int eval04();
+	public abstract int eval05();
 	
 }
