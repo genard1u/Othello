@@ -12,63 +12,27 @@ public abstract class Partie {
 	protected Joueur j2;
 	
 	protected Joueur joueurCourant;
-	protected Joueur gagnant;
 	
 	
-	public Partie() {}
+	protected Partie() {}
 	
-	public Partie(Joueur un, Joueur deux) {
+	protected Partie(Joueur un, Joueur deux) {
 		j1 = un;
 		j2 = deux; 
 	}
 	
 	protected abstract void allerSurUnSuccesseur();
-	protected abstract void aucunSuccesseur(boolean aff);
+	protected abstract void aucunSuccesseur(boolean affichage);
+	protected abstract void tour(int profondeur, boolean affichage, Eval0... eval0s);	
 	protected abstract boolean estTerminee();
+	protected abstract Joueur gagnant();
 	
-	public Joueur lancer(int c, boolean aff, Eval0... eval0s) {
-		joueurCourant = j1;
-		
+	public Joueur lancer(int c, boolean affichage, Eval0... eval0s) {
 		while (!estTerminee()) {
-			tour(c, aff, eval0s);
+			tour(c, affichage, eval0s);
 		}
 		
-		gagnant = getGagnant();
-		
-		return getGagnant();
-	}
-	
-	protected abstract void tour(int c, boolean aff, Eval0... eval0s);	
-	public abstract Joueur getGagnant();
-	 
-	public Joueur getJoueurCourant(){
-		 return joueurCourant;
-	 }
-
-	public Joueur getJoueurSuivant() {
-		if (joueurCourant == j1) {
-			return j2;
-		}
-		else {
-			return j1;
-		}
-	}
-
-	public Joueur getJoueurSuivant(Joueur j) {
-		if (j == j1) {
-			return j2;
-		}
-		else if (j == j2) {
-			return j1;
-		}
-		
-		assert false;
-		
-		return null;
-	}
-
-	public boolean isGagnant(Joueur j) {
-		return j == gagnant;
-	}
+		return gagnant();
+	}	
 	
 }

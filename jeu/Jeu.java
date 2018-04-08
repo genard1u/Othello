@@ -12,10 +12,10 @@ public abstract class Jeu {
 	
 	
 	protected abstract boolean continuer();
-	public abstract void lancer( boolean af);
+	public abstract void lancer(boolean affichage);
 	
-	protected String score() {
-		StringBuilder score = new StringBuilder();
+	public String score() {
+		StringBuilder score = new StringBuilder(30);
 		
 		score.append("Joueur " + j1.nomJoueur());
 		score.append(" : ");
@@ -26,10 +26,10 @@ public abstract class Jeu {
 		score.append(j2.partiesGagnees());
 		
 		return score.toString();
-	}
+	} 
 	
-	protected void afficherScore() {
+	public void afficherScore() {
 		System.out.println(score());
-	}
+	} 
 	
 }

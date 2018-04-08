@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import othello.Pion;
 import othello.eval.Eval0;
+import othello.eval.Eval0Othello;
 import othello.eval.Eval0Othello_1;
 import othello.eval.Eval0Othello_2;
 import othello.eval.Eval0Othello_3;
@@ -14,77 +15,93 @@ import othello.partie.PartieOthello;
 
 public class JeuOthello extends Jeu {
 
+	public static final String PROFONDEUR = "Entrez une profondeur (valeur positive) ";
+	public static final String PREMIERE_EVAL0 = "La première éval0 ";
+	public static final String SECONDE_EVAL0 = "La seconde éval0 ";
+	public static final String JOUER_OU_EVAL = "Voulez-vous jouer(0) ou faire une évaluation d'eval0(1) ? ";
+	public static final String DEUX_EVAL0 = "Entrez le numéro de deux eval0 (entre 1 et 4) ";
+	public static final String EVAL0_INVALIDE = "Eval0 non définie (doit être entre 1 et 4) ";
+	public static final String JEU_AMI_MACHINE_DEUX_MACHINES = "Voulez-vous jouer contre un ami(0), une machine(1), ou voir une partie entre deux machines(2) ?";
+	public static final String CONTINUER = "Fini, voulez-vous recommencer oui(1) non(sinon) ? ";
+	
+	
 	public JeuOthello() {
-		j1 = new JoueurOthello("j1",false,Pion.NOIR);
-		j2 = new JoueurOthello("j2",false,Pion.BLANC);
-		boolean b;
+		j1 = new JoueurOthello("j1", false, Pion.NOIR);
+		j2 = new JoueurOthello("j2", false, Pion.BLANC);
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("voulez vous jouer(0) ou faire un evaluation d'eval0(1)?");
-		b = choixBoolean(sc);
 		
-		if(b){
-			System.out.println("Entrez le numero de deux fonction eval0 (il y en a 4)");
+		System.out.println(JOUER_OU_EVAL);
+		
+		boolean jeuOuEvaluation = choixBooleen(sc);
+		
+		if (jeuOuEvaluation) {
+			System.out.println(DEUX_EVAL0);
 			choixEval0(sc);
-		}else{
-			System.out.println("voulez vous jouer contre un ami(0), une machine(1), ou voir une partie entre deux machine(2) ?");
-			choixJoueur(sc);
-			
+		}
+		else {
+			System.out.println(JEU_AMI_MACHINE_DEUX_MACHINES);
+			choixJoueur(sc);			
 		}
 	}
 	
-	
-
 	private void choixEval0(Scanner sc) {
-		Eval0 e1 , e2;
-		System.out.println("premier eval0");
-		e1 = selectionEval0(sc);
-		System.out.println("deuxieme eval0");
-		e2 = selectionEval0(sc);
-		System.out.println("entrez une profondeur ");
-		int i = sc.nextInt();
-		System.out.println(evaluationEval0(e1, e2, i));
+		Eval0 e1, e2;
 		
+		System.out.println(PREMIERE_EVAL0);
+		e1 = selectionEval0(sc);
+		
+		System.out.println(SECONDE_EVAL0);
+		e2 = selectionEval0(sc);
+		
+		int profondeur = 0;
+		
+		do {
+		    System.out.println(PROFONDEUR);
+		    profondeur = sc.nextInt();
+		} while (profondeur < 0);
+		
+		System.out.println(evaluationEval0(e1, e2, profondeur));		
 	}
-
-
 
 	private Eval0 selectionEval0(Scanner sc) {
-		Eval0 e = new Eval0Othello_1();
-		int i = sc.nextInt();
+		Eval0 eval0 = null;
+		int numEval0 = sc.nextInt();
 		
-		while (i <= 0 || i > 4){
-			System.out.println("numero invalide encore un svp ");
-			i= sc.nextInt();
+		while (numEval0 < 1 || numEval0 > Eval0Othello.NB_EVAL0) {
+			System.out.println(EVAL0_INVALIDE);
+			numEval0 = sc.nextInt();
 		}
 		
-		switch(i){
+		switch (numEval0) {
 			case 1:
-				e = new Eval0Othello_1();
+				eval0 = new Eval0Othello_1();
 				break;
 			case 2:
-				e = new Eval0Othello_2();
+				eval0 = new Eval0Othello_2();
 				break;
 			case 3:
-				e = new Eval0Othello_3();
+				eval0 = new Eval0Othello_3();
 				break;
 			case 4:
-				e = new Eval0Othello_4();
+				eval0 = new Eval0Othello_4();
 				break;
 		}
 		
-		return e;
+		assert eval0 != null;
+		
+		return eval0;
 	}
 
 	private void choixJoueur(Scanner sc) {
 		int i = sc.nextInt();
 		
 		switch (i) {
-			case 0 : 
+			case 0: 
 				j1.setHumain(true);
 				j2.setHumain(true);
 				break;
-			case 1 :
+			case 1:
 				j2.setHumain(true);
 				break;
 		}
@@ -92,7 +109,7 @@ public class JeuOthello extends Jeu {
 		lancer(true);		
 	}
 
-	private boolean choixBoolean(Scanner sc) {
+	private boolean choixBooleen(Scanner sc) {
 		if (sc.nextInt() == 1) {
 			return true;
 		}
@@ -102,71 +119,84 @@ public class JeuOthello extends Jeu {
 
 	@Override
 	public boolean continuer() {
-		System.out.println("fini,voulez vous recomencer? oui(1) non(sinon)");
+		System.out.println(CONTINUER);
 		
-		return choixBoolean(new Scanner(System.in));
+		return choixBooleen(new Scanner(System.in));
 	}
 	
 	@Override
-	public void lancer(boolean aff) {        
+	public void lancer(boolean affichage) {        
 		do {
-			partieCourante = new PartieOthello(j1, j2);
-			Joueur gagnant = partieCourante.lancer(1,aff);
+			partieCourante = new PartieOthello((JoueurOthello) j1, (JoueurOthello) j2);
+			Joueur gagnant = partieCourante.lancer(1, affichage);
 		
-			gagnant.victoire();
+			if (gagnant != null) {
+				gagnant.victoire();
+			}
+			
 			afficherScore(); 			
 		} while (continuer());
 	}
 	
-	public int evaluationEval0(Eval0 e1 , Eval0 e2 , int profondeur){
-		int res =0;
-		JoueurOthello jo1 = new JoueurOthello("m1", false, Pion.NOIR);
-		JoueurOthello jo2 = new JoueurOthello("m2", false, Pion.BLANC);
-		PartieOthello p = new PartieOthello(jo1,jo2 );
-		Joueur j = p.lancer(profondeur,false,e1,e2);
+	public int eval0VsEval0(JoueurOthello j1, JoueurOthello j2, Eval0 eval01, Eval0 eval02, int profondeur) {
+		PartieOthello partie = null; 
+		JoueurOthello gagnant = null;
+		int gain = 0;
+		
+		partie = new PartieOthello(j1, j2);
+		gagnant = (JoueurOthello) partie.lancer(profondeur, false, eval01, eval02);
 		 
-		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
-			System.out.println("11");
-			res++;
-		}else{
-			System.out.println("-11");
-			res--;
-		}
-		/*((JoueurOthello)(p.j1)).setPion(Pion.BLANC);
-		((JoueurOthello)(p.j2)).setPion(Pion.NOIR);*/
-		 p = new PartieOthello(jo1,jo2 );
-		 
-		j = p.lancer(profondeur,false, e2,e1);
-		 
-		if (((JoueurOthello)j).couleur() == Pion.NOIR ){
-			res--;
-		}else{
-			res++;
+		if (gagnant != null) {
+		    if (gagnant.couleur() == Pion.NOIR) {
+			    gain ++;
+		    }
+		    else {
+			    gain --;
+		    }
 		}
 		
+		return gain;
+	}
+	
+	public int evaluationEval0(Eval0 eval01, Eval0 eval02, int profondeur) {
+		int gainsCumules = 0;
+		JoueurOthello j1 = new JoueurOthello("m1", false, Pion.NOIR);
+		JoueurOthello j2 = new JoueurOthello("m2", false, Pion.BLANC);
 		
-		if (res>1){
-			res=1;
+		gainsCumules += eval0VsEval0(j1, j2, eval01, eval02, profondeur);
+		gainsCumules += eval0VsEval0(j1, j2, eval02, eval01, profondeur);
+		
+		if (gainsCumules > 1) {
+			gainsCumules = 1;
 		}
-		if (res<-1){
-			res=-1;
+		else if (gainsCumules < -1) {
+			gainsCumules = -1;
 		}
-		return res;
+		else {
+			gainsCumules = 0;
+		}
+		
+		return gainsCumules;
 	}	
 
 	public static void main(String[] args) {		
 		JeuOthello jeu = new JeuOthello();
-		/*System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_2 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		System.out.println("\nevaluation de Eval0Othello_1 et Eval0Othello_3 :");
+		
+	    System.out.println("Eval0Othello_1 vs Eval0Othello_2 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
 		System.out.println("\n");
-		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_3 :");
+		
+		System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
+		System.out.println("\n");
+		
+		System.out.println("Eval0Othello_2 vs Eval0Othello_3 :");
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 2));
 		System.out.println("\n");
-		System.out.println("\nevaluation de Eval0Othello_2 et Eval0Othello_1 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));*/
-		//jeu.lancer();
+		
+		System.out.println("Eval0Othello_2 vs Eval0Othello_1 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));
+		System.out.println("\n");
 	}
 	
 }

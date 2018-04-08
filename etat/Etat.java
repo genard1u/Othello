@@ -2,22 +2,22 @@ package othello.etat;
 
 import java.util.ArrayList;
 
-import othello.Pion;
 import othello.eval.Eval0;
+import othello.eval.Eval0Othello_1;
 import othello.joueur.Joueur;
-import othello.joueur.JoueurOthello;
-import othello.partie.Partie;
 
 /**
  * @author Collignon Valentin
- * @author Genard Pierre
+ * @author Génard Pierre
  */
 public abstract class Etat {
 
 	protected Eval0 eval0;
 	
 	
-	protected Etat() {}
+	protected Etat() {
+		eval0 = new Eval0Othello_1();
+	}
 	
 	protected Etat(Eval0 e) {
 		eval0 = e;
@@ -38,7 +38,15 @@ public abstract class Etat {
 		return estFinal;
 	}
 	
-	public abstract boolean estPremier(Joueur j);
+	public Eval0 getEval0() {
+		return eval0;
+	}
+	
+	public void setEval0(Eval0 eval) {
+		eval0 = eval;
+	}
+	
+	public abstract boolean joueurMaximisant(Joueur j);
 	public abstract float valeurFinDePartie();
 	
 	public Joueur joueurSuivant(Joueur courant, Joueur j1, Joueur j2) {
@@ -61,12 +69,12 @@ public abstract class Etat {
 		Etat eSortie = null;
 		float score_max = Float.MIN_VALUE;
 		float score_min = Float.MAX_VALUE;
-		float score = 0;
+		float score = 0f;
 		
 		for (Etat e : S) {
 			score = evaluation(courant, j1, j2, c);
 			
-			if (estPremier(courant)) {
+			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;
@@ -95,7 +103,7 @@ public abstract class Etat {
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
 		
-		if (estPremier(courant)) {
+		if (joueurMaximisant(courant)) {
 			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {
@@ -120,15 +128,15 @@ public abstract class Etat {
 		Etat eSortie = null;
 		float score_min = Float.MAX_VALUE;
 		float score_max = Float.MIN_VALUE;
-		float score = 0;
+		float score = 0f;
 		
 		for (Etat e : S) {
 			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
-			if (estPremier(courant)) {
+			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
-					score_max = score ;
+					score_max = score;
 				}
 			}
 			else {
@@ -154,7 +162,7 @@ public abstract class Etat {
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
 		
-		if (estPremier(courant)) {
+		if (joueurMaximisant(courant)) {
 			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {

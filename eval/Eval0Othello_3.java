@@ -1,6 +1,5 @@
 package othello.eval;
 
-import othello.Pion;
 import othello.etat.EtatOthello;
 
 public class Eval0Othello_3 extends Eval0Othello {
@@ -9,7 +8,7 @@ public class Eval0Othello_3 extends Eval0Othello {
 
 	@Override
 	public int eval0(EtatOthello etat) {
-		return (etat.valJeton(Pion.NOIR)+etat.nbJeton(Pion.NOIR))-(etat.valJeton(Pion.BLANC)+etat.nbJeton(Pion.BLANC));
+		return etat.eval03();
 	}
 
 }

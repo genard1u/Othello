@@ -3,12 +3,13 @@ package othello.etat;
 import java.util.ArrayList;
 
 import othello.Pion;
+import othello.eval.Eval0;
 import othello.joueur.Joueur;
 import othello.joueur.JoueurOthello;
 
 /**
  * @author Collignon Valentin
- * @author Genard Pierre
+ * @author Génard Pierre
  */
 public class EtatOthello extends Etat {
 
@@ -19,12 +20,14 @@ public class EtatOthello extends Etat {
 	
 	
 	public EtatOthello() {
+		super();
 		plateau = new Pion[T][T];
 		plateauVide();
 		premiersPions();
 	}
 	
 	public EtatOthello(int taille) {
+		super();
 		T = taille;
 		plateau = new Pion[T][T];
 		plateauVide();
@@ -32,12 +35,34 @@ public class EtatOthello extends Etat {
 	}
 	
 	public EtatOthello(EtatOthello e) {
+		super();
 		plateau = e.getPlateau();
 		T = e.getTaille();
 	}
 	
+	public EtatOthello(Eval0 eval0) {
+		super(eval0);
+		plateau = new Pion[T][T];
+		plateauVide();
+		premiersPions();
+	}
+	
+	public EtatOthello(Eval0 eval0, int taille) {
+		super(eval0);
+		T = taille;
+		plateau = new Pion[T][T];
+		plateauVide();
+		premiersPions();
+	}
+	
+	public EtatOthello(Eval0 eval0, EtatOthello etat) {
+		super(etat.getEval0());
+		plateau = etat.getPlateau();
+		T = etat.getTaille();
+	}
+	
 	private void plateauVide() {
-		for (int i = 0 ; i < T * T; i ++){
+		for (int i = 0 ; i < T * T; i ++) {
 			int y = i / T;
 			int x = i % T;
 			
@@ -57,9 +82,10 @@ public class EtatOthello extends Etat {
 	public Pion[][] getPlateau() {
 		Pion[][] p = new Pion[T][T];
 		
-		for (int i = 0 ; i < T * T; i ++){
+		for (int i = 0 ; i < T * T; i ++) {
 			int y = i / T;
 			int x = i % T;
+			
 			p[x][y] = plateau[x][y];
 		}
 		
@@ -74,11 +100,14 @@ public class EtatOthello extends Etat {
 		plateau[x][y] = p;
 	}
 	
-	public boolean estPremier(Joueur j) {
-		JoueurOthello jo = (JoueurOthello) j;
+	/**
+	 * le joueur maximisant est celui qui a les noirs
+	 */
+	public boolean joueurMaximisant(Joueur j) {
+		JoueurOthello joueur = (JoueurOthello) j;
 		boolean estPremier = false;
 		
-		if (jo.couleur() == Pion.NOIR) {
+		if (joueur.couleur() == Pion.NOIR) {
 			estPremier = true;
 		}
 		else {
@@ -90,8 +119,8 @@ public class EtatOthello extends Etat {
 	
 	public float valeurFinDePartie() {
 		float valeur = 0f;
-		int noirs = nbJeton(Pion.NOIR);
-		int blancs = nbJeton(Pion.BLANC);		
+		int noirs = nbJetons(Pion.NOIR);
+		int blancs = nbJetons(Pion.BLANC);		
 		
 		if (noirs > blancs) {
 			valeur = Float.MAX_VALUE;
@@ -108,17 +137,20 @@ public class EtatOthello extends Etat {
 	
 	public boolean successeur(int x, int y, Pion p) {
 		boolean successeur = false;
-		for(int i=-1;i<2;i++){
-			for (int j=-1;j<2;j++){		
-				if (verifBord(x+i, y+j) && plateau[x+i][y+j]!= p && plateau[x+i][y+j]!= Pion.RIEN){
-					int cx=x+i,cy=y+j;
-					int[] r = verifOuRetourn(0,cx,cy,i,j,p);
-					if (verifBord(r[0] ,r[1]) && plateau[r[0]][r[1]]==p){
-						successeur=true;
+		
+		for (int i = -1; i < 2; i ++) {
+			for (int j = -1; j < 2; j ++) {		
+				if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
+					int cx = x + i, cy = y + j;
+					int[] r = verifOuRetourn(0, cx, cy, i, j, p);
+					
+					if (verifBord(r[0] ,r[1]) && plateau[r[0]][r[1]] == p) {
+						successeur = true;
 					}
 				}
 			}
 		}
+		
 		return successeur;
 	}
 	
@@ -128,14 +160,16 @@ public class EtatOthello extends Etat {
 	@Override
 	public ArrayList<Etat> successeurs(Joueur j) {
 		ArrayList<Etat> successeurs = new ArrayList<Etat>();
+		JoueurOthello joueur = (JoueurOthello) j;
 		
 		for (int y = 0; y < getTaille(); y ++) {
 			for (int x = 0; x < getTaille(); x ++) {
-				if (plateau[x][y]== Pion.RIEN){
-					if (successeur(x, y, ((JoueurOthello)j).couleur())) {
+				if (plateau[x][y] == Pion.RIEN) {
+					if (successeur(x, y, joueur.couleur())) {
 						EtatOthello e = new EtatOthello(this);
-						e.setPion(x, y, ((JoueurOthello)j).couleur());
-						e.retourner(x, y,((JoueurOthello)j).couleur());
+						
+						e.setPion(x, y, joueur.couleur());
+						e.retourner(x, y, joueur.couleur());
 						successeurs.add(e);
 					}
 				}
@@ -146,18 +180,15 @@ public class EtatOthello extends Etat {
 	}
 	
 	public void retourner(int x, int y, Pion p) {
-		// TODO Auto-generated method stub
-		for(int i=-1;i<2;i++){
-			for (int j=-1;j<2;j++){
-				if(verifBord(x, y)){
-					if (verifBord(x+i, y+j) &&plateau[x+i][y+j]!= p &&plateau[x+i][y+j]!= Pion.RIEN){
-						int cx=x+i,cy=y+j;
-						int[] r=verifOuRetourn(0,cx,cy,i,j,p);
-
+		for (int i = -1; i < 2; i ++) {
+			for (int j = -1; j < 2; j ++) {
+				if (verifBord(x, y)) {
+					if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
+						int cx = x + i, cy = y + j;
+						int[] r = verifOuRetourn(0,cx,cy,i,j,p);
 						
-						if(((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) &&plateau[r[0]][r[1]]==p){
-							 r=verifOuRetourn(1,r[0],r[1],i,j,p);
-
+						if (((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) && plateau[r[0]][r[1]] == p) {
+							 r = verifOuRetourn(1,r[0],r[1],i,j,p);
 						}
 					}
 				}
@@ -165,54 +196,57 @@ public class EtatOthello extends Etat {
 		}
 	}
 	
-	public int[] verifOuRetourn(int mode , int x, int y, int i,int j,Pion p){
+	public int[] verifOuRetourn(int mode, int x, int y, int i, int j, Pion p) {
 		int[] res= new int[2];
-		int cx=x,cy=y;
-		if(mode ==1)
-		{
-			cx=cx-i;
-			cy=cy-j;
+		int cx = x, cy = y;
+		
+		if (mode == 1) {
+			cx = cx - i;
+			cy = cy - j;
 		}
-		if(i!=0||j!=i){
-			while(verifBord(cx, cy) && (plateau[cx][cy]!= p && plateau[cx][cy]!= Pion.RIEN)){
+		
+		if (i != 0 || j != i) {
+			while (verifBord(cx, cy) && (plateau[cx][cy] != p && plateau[cx][cy] != Pion.RIEN)) {
 				switch (mode) {
 				case 0:
-					cx=cx+i;
-					cy=cy+j;
+					cx = cx + i;
+					cy = cy + j;
 					break;
 				case 1:
-					setPion(cx, cy,p);
-					cx=cx-i;
-					cy=cy-j;
+					setPion(cx, cy, p);
+					cx = cx - i;
+					cy = cy - j;
 					break;
 				default:
 					break;
 				}
 			}
 		}
-		res[0]=cx;
-		res[1]=cy;
+		
+		res[0] = cx;
+		res[1] = cy;
+		
 		return res;
 	}
 	
-	public boolean verifBord(int x,int y){
-		return(verifBordGauche(x) && verifBordHaut(y) && verifBordDroit(x) && verifBordBas(y));
+	public boolean verifBord(int x,int y) {
+		return verifBordGauche(x) && verifBordHaut(y) && verifBordDroit(x) && verifBordBas(y);
 	}
 	
-	public boolean verifBordGauche(int x){
-		return(x>=0);
+	public boolean verifBordGauche(int x) {
+		return x >= 0;
 	}
 	
-	public boolean verifBordDroit(int x){
-		return(x<=T-1);
+	public boolean verifBordDroit(int x) {
+		return x <= T-1;
 	}
 	
-	public boolean verifBordHaut(int y){
-		return(y>=0);
+	public boolean verifBordHaut(int y) {
+		return y >= 0;
 	}
 	
-	public boolean verifBordBas(int y){
-		return(y<=T-1);
+	public boolean verifBordBas(int y) {
+		return y <= T-1;
 	}
 
 	@Override
@@ -259,36 +293,40 @@ public class EtatOthello extends Etat {
 		return plateau[x][y] == Pion.RIEN;
 	}
 	
-	public int nbJeton(Pion couleur) {
-		int cmp = 0;
+	public int nbJetons(Pion couleur) {
+		int jetons = 0;
 		
-		for (int i = 0; i < T; i ++){
-			for (int j = 0; j < T; j++){
+		for (int i = 0; i < T; i ++) {
+			for (int j = 0; j < T; j ++) {
 				if (plateau[i][j] == couleur) {
-					cmp++;
+					jetons ++;
 				}
 			}
 		}
 		
-		return cmp;
+		return jetons;
 	}
+	
 	public int valJeton(Pion p) {
-		int cmp = 0;
+		int valeursCumulees = 0;
 		
-		for (int i = 0; i < T; i ++){
-			for (int j = 0; j < T; j++){
+		for (int i = 0; i < T; i ++) {
+			for (int j = 0; j < T; j ++) {
 				if (plateau[i][j] == p) {
-					cmp++;
+					valeursCumulees ++;
+					
 					if(estBord(i,j)){
-						cmp++;
-						if(estCoin(i,j)){
-							cmp++;
+						valeursCumulees ++;
+						
+						if(estCoin(i,j)) {
+							valeursCumulees ++;
 						}
 					}
 				}
 			}
 		}
-		return 0;
+		
+		return valeursCumulees;
 	}
 	
 	public int centreImpair(int y, int x) {
@@ -366,15 +404,18 @@ public class EtatOthello extends Etat {
 	}
 
 	public int eval01() {
-		return nbJeton(Pion.NOIR)-nbJeton(Pion.BLANC);
+		return nbJetons(Pion.NOIR) - nbJetons(Pion.BLANC);
 	}
 	
 	public int eval02() {
-		return valJeton(Pion.NOIR)-valJeton(Pion.BLANC);
+		return valJeton(Pion.NOIR) - valJeton(Pion.BLANC);
 	}
 	
 	public int eval03() {
-		return (valJeton(Pion.NOIR)+nbJeton(Pion.NOIR))-(valJeton(Pion.BLANC)+nbJeton(Pion.BLANC));
+		int evalNoirs = valJeton(Pion.NOIR) + nbJetons(Pion.NOIR);
+		int evalBlancs = valJeton(Pion.BLANC) + nbJetons(Pion.BLANC);
+		
+		return evalNoirs - evalBlancs;
 	}
 	
     public int eval04() {
@@ -384,7 +425,7 @@ public class EtatOthello extends Etat {
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
 		JoueurOthello j0 = new JoueurOthello("j1", Pion.NOIR);
-		JoueurOthello j1 = new JoueurOthello("j2", Pion.BLANC);
+		// JoueurOthello j1 = new JoueurOthello("j2", Pion.BLANC);
 		
 		test.setPion(2, 1, Pion.NOIR);
 		test.setPion(1, 1, Pion.BLANC);
