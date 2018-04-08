@@ -9,6 +9,7 @@ import othello.eval.Eval0Othello_1;
 import othello.eval.Eval0Othello_2;
 import othello.eval.Eval0Othello_3;
 import othello.eval.Eval0Othello_4;
+import othello.eval.Eval0Othello_5;
 import othello.joueur.Joueur;
 import othello.joueur.JoueurOthello;
 import othello.partie.PartieOthello;
@@ -164,18 +165,16 @@ public class JeuOthello extends Jeu {
 		int gainsCumules = 0;
 		JoueurOthello j1 = new JoueurOthello("m1", false, Pion.NOIR);
 		JoueurOthello j2 = new JoueurOthello("m2", false, Pion.BLANC);
-		
+	
 		gainsCumules += eval0VsEval0(j1, j2, eval01, eval02, profondeur);
-		//System.out.println("\n\n");
 		gainsCumules -= eval0VsEval0(j1, j2, eval02, eval01, profondeur);
 		
-		if (gainsCumules > 1 ){
+		if (gainsCumules > 1) {
 			gainsCumules = 1;
 		}
-		if (gainsCumules < -1 ){
+		else if (gainsCumules < -1) {
 			gainsCumules = -1;
 		}
-		
 		
 		return gainsCumules;
 	}	
@@ -188,8 +187,8 @@ public class JeuOthello extends Jeu {
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), profondeur));
 		System.out.println();
 		
-		System.out.println("Eval0Othello_2 vs Eval0Othello_1 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), profondeur));
+		System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_3(), profondeur));
 		System.out.println();
 		
 		System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
@@ -200,8 +199,13 @@ public class JeuOthello extends Jeu {
 		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_3(), profondeur));
 		System.out.println(); 
 		*/
-		System.out.println("Eval0Othello_1 vs Eval0Othello_4 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_4(), profondeur));
+		
+		System.out.println("Eval0Othello_1 vs Eval0Othello_5 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_5(), profondeur));
+		System.out.println(); 
+		
+		System.out.println("Eval0Othello_5 vs Eval0Othello_1 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_5(), new Eval0Othello_1(), profondeur));
 		System.out.println(); 
 	}
 	

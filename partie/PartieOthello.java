@@ -20,6 +20,7 @@ public class PartieOthello extends Partie {
 	
 	private int passeSonTour;
 	
+	
 	public PartieOthello(JoueurOthello un, JoueurOthello deux) {
 		super(un, deux);
 		
@@ -108,10 +109,11 @@ public class PartieOthello extends Partie {
 		}
 	}
 	
-	protected void tour(int profondeur, boolean affichage, Eval0... eval0s) {
-		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
-		if ( joueurCourant.estHumain()){
+	protected void tour(int profondeur, boolean affichage, Eval0... eval0s) {		
+		if (joueurCourant.estHumain()) {
 			System.out.println(etat.toString());
+			
+			ArrayList<Etat> succ = etat.successeurs(joueurCourant);
 			
 			if (succ.size() > 0) {
 				allerSurUnSuccesseur();

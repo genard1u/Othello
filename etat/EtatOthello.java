@@ -403,14 +403,17 @@ public class EtatOthello extends Etat {
 		return (i == 0) || (i == T-1) || (j == 0) || (j == T-1);
 	}
 
+	@Override
 	public int eval01() {
 		return nbJetons(Pion.NOIR) - nbJetons(Pion.BLANC);
 	}
 	
+	@Override
 	public int eval02() {
 		return valJeton(Pion.NOIR) - valJeton(Pion.BLANC);
 	}
 	
+	@Override
 	public int eval03() {
 		int evalNoirs = valJeton(Pion.NOIR) + nbJetons(Pion.NOIR);
 		int evalBlancs = valJeton(Pion.BLANC) + nbJetons(Pion.BLANC);
@@ -418,9 +421,15 @@ public class EtatOthello extends Etat {
 		return evalNoirs - evalBlancs;
 	}
 	
+	@Override
     public int eval04() {
     	return forces(Pion.NOIR) - forces(Pion.BLANC);
     }
+    
+    @Override
+	public int eval05() {
+		return 0;
+	}
     
 	public static void main(String[] args) {
 		EtatOthello test = new EtatOthello();
