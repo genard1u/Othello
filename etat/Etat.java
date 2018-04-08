@@ -2,9 +2,15 @@ package othello.etat;
 
 import java.util.ArrayList;
 
+import othello.Pion;
 import othello.eval.Eval0;
 import othello.eval.Eval0Othello_1;
+import othello.eval.Eval0Othello_2;
+import othello.eval.Eval0Othello_3;
+import othello.eval.Eval0Othello_4;
+import othello.eval.Eval0Othello_5;
 import othello.joueur.Joueur;
+import othello.joueur.JoueurOthello;
 
 /**
  * @author Collignon Valentin
@@ -69,17 +75,27 @@ public abstract class Etat {
 		ArrayList<Etat> S = successeurs(courant);
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		Etat eSortie = null;
-		float score_max = Float.MIN_VALUE;
-		float score_min = Float.MAX_VALUE;
+		float score_max = Integer.MIN_VALUE;
+		float score_min = Integer.MAX_VALUE;
 		float score = 0f;
 		
 		assert c > 0;
 		
+		System.out.println("Score maximum : " + score_max);
+		System.out.println("Nombre de successeurs : " + S.size());
+		System.out.println("Joueur maximisant : " + joueurMaximisant(courant));
+		
 		for (Etat e : S) {			
 			score = e.evaluation(suivant, j1, j2, c - 1);
+			System.out.println("Score : " + score);
+			System.out.println("Joueur maximisant : " + joueurMaximisant(courant));
 			
 			if (joueurMaximisant(courant)) {
+				System.out.println("Score : " + score);
+				System.out.println("Score maximum : " + score_max);
+				
 				if (score >= score_max) {
+					System.out.println("Nouveau score maximum: " + score);
 					eSortie = e;
 					score_max = score;
 				}
@@ -100,7 +116,10 @@ public abstract class Etat {
 			return valeurFinDePartie();
 		}
 		
+		System.out.print(this);
+		
 		if (c == 0) {
+			System.out.println("eval0.eval = " + eval0.eval(this));
 			return eval0.eval(this);
 		}
 		
@@ -131,14 +150,14 @@ public abstract class Etat {
 		ArrayList<Etat> S = successeurs(courant);
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		Etat eSortie = null;
-		float score_min = Float.MAX_VALUE;
-		float score_max = Float.MIN_VALUE;
+		float score_min = Integer.MAX_VALUE;
+		float score_max = Integer.MIN_VALUE;
 		float score = 0f;
 		
 		assert c > 0;
 		
 		for (Etat e : S) {
-			score = e.evaluation_alpha_beta(suivant, j1, j2, c - 1, Float.MIN_VALUE, Float.MAX_VALUE);
+			score = e.evaluation_alpha_beta(suivant, j1, j2, c - 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
@@ -167,6 +186,7 @@ public abstract class Etat {
 		}
 		
 		if (c == 0) {
+			System.out.println("éval0 : " + eval0.getClass().getName());
 			return eval0.eval(this);
 		}
 		
@@ -174,7 +194,7 @@ public abstract class Etat {
 		ArrayList<Etat> S = successeurs(courant);
 		
 		if (joueurMaximisant(courant)) {
-			float score_max = Float.MIN_VALUE;
+			float score_max = Integer.MIN_VALUE;
 			
 			for (Etat e : S) {
 				score_max = Math.max(score_max, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
@@ -189,7 +209,7 @@ public abstract class Etat {
 			return score_max;
 		}
 		else {
-			float score_min = Float.MAX_VALUE;
+			float score_min = Integer.MAX_VALUE;
 			
 			for (Etat e : S) {
 				score_min = Math.min(score_min, e.evaluation_alpha_beta(suivant, j1, j2, c - 1, alpha, beta));
@@ -212,5 +232,49 @@ public abstract class Etat {
 	public abstract int eval03();
 	public abstract int eval04();
 	public abstract int eval05();
+	
+	public static void main(String[] args) {	
+		JoueurOthello j1 = new JoueurOthello("m1", false, Pion.NOIR);
+		JoueurOthello j2 = new JoueurOthello("m2", false, Pion.BLANC);
+		JoueurOthello courant = j1;
+		Eval0Othello_1 eval01 = new Eval0Othello_1();
+		Eval0Othello_2 eval02 = new Eval0Othello_2();
+		Eval0Othello_3 eval03 = new Eval0Othello_3();
+		Eval0Othello_4 eval04 = new Eval0Othello_4();
+		Eval0Othello_5 eval05 = new Eval0Othello_5();
+		EtatOthello etat = new EtatOthello();
+		int profondeur = 1;
+		
+		etat.setPion(1, 3, Pion.BLANC);
+		etat.setPion(2, 3, Pion.BLANC);				
+		etat.setPion(5, 0, Pion.BLANC);
+		
+		for (int i = 1; i < etat.getTaille() - 1; i ++) {
+			etat.setPion(5, i, Pion.BLANC);
+		}
+		
+		System.out.println(etat.toString());
+		
+        /* ArrayList<Etat> succ = etat.successeurs(courant);
+		
+		for (Etat e :succ) {
+			System.out.println(e.toString());
+		} */
+		
+		etat.setEval0(eval01);
+		System.out.println(etat.minimax(courant, j1, j2, profondeur));
+		
+		/* etat.setEval0(eval02);
+		System.out.println(etat.minimax(courant, j1, j2, profondeur));
+		
+		etat.setEval0(eval03);
+		System.out.println(etat.minimax(courant, j1, j2, profondeur));
+		
+		etat.setEval0(eval04);
+		System.out.println(etat.minimax(courant, j1, j2, profondeur));
+		
+		etat.setEval0(eval05);
+		System.out.println(etat.minimax(courant, j1, j2, profondeur)); */
+	}
 	
 }

@@ -1,6 +1,7 @@
 package othello.etat;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import othello.Pion;
 import othello.eval.Eval0;
@@ -13,6 +14,8 @@ import othello.joueur.JoueurOthello;
  */
 public class EtatOthello extends Etat {
 
+	private final static Random alea = new Random();
+	
 	private final static int T_DEF = 8;
 	
 	private int T = T_DEF;	
@@ -123,13 +126,13 @@ public class EtatOthello extends Etat {
 		int blancs = nbJetons(Pion.BLANC);		
 		
 		if (noirs > blancs) {
-			valeur = Float.MAX_VALUE;
+			valeur = Integer.MAX_VALUE;
 		}
 		else if (noirs == blancs) {
 			valeur = 0f;
 		}
 		else {
-			valeur = Float.MIN_VALUE;
+			valeur = Integer.MIN_VALUE;
 		}
 		
 		return valeur;
@@ -185,10 +188,10 @@ public class EtatOthello extends Etat {
 				if (verifBord(x, y)) {
 					if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
 						int cx = x + i, cy = y + j;
-						int[] r = verifOuRetourn(0,cx,cy,i,j,p);
+						int[] r = verifOuRetourn(0, cx, cy, i, j, p);
 						
 						if (((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) && plateau[r[0]][r[1]] == p) {
-							 r = verifOuRetourn(1,r[0],r[1],i,j,p);
+							 r = verifOuRetourn(1, r[0], r[1], i, j, p);
 						}
 					}
 				}

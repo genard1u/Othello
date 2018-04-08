@@ -129,6 +129,7 @@ public class PartieOthello extends Partie {
 			
 			if (eval0s.length == 2) {
 				if (joueurCourant().couleur() == Pion.NOIR) {
+					System.out.println("éval0 joueur 1 : " + eval0s[0].getClass().getName());
 					etat.setEval0(eval0s[0]);
 				}
 				else {
@@ -161,6 +162,7 @@ public class PartieOthello extends Partie {
 		else {
 			joueurCourant = j1;
 		}
+		
 		if (joueurCourant.estHumain() && affichage) {
 			System.out.println(AU_SUIVANT);
 		}	
@@ -175,23 +177,14 @@ public class PartieOthello extends Partie {
 		float gains = etat.valeurFinDePartie();
 		
 		assert estTerminee() == true;
-		assert j1.couleur() != j2.couleur();
+		assert j1.couleur() == Pion.NOIR;
+		assert j2.couleur() == Pion.BLANC;
 		
-		if (gains == Float.MAX_VALUE) {
-			if (j1.couleur() == Pion.NOIR) {
-				gagnant = j1;
-			}
-			else {
-				gagnant = j2;
-			}
+		if (gains == Integer.MAX_VALUE) {
+			gagnant = j1;
 		}
-		else if (gains == Float.MIN_VALUE) {
-			if (j1.couleur() == Pion.NOIR) {
-				gagnant = j2;
-			}
-			else {
-				gagnant = j1;
-			}
+		else if (gains == Integer.MIN_VALUE) {
+			gagnant = j2;
 		}
 		
 		return gagnant;
