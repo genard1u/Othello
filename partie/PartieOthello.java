@@ -136,6 +136,7 @@ public class PartieOthello extends Partie {
 			}
 			
 			Etat e = etat.minimax_alpha_beta(joueurCourant, j1, j2, profondeur);
+			
 			if (e == null) {
 				aucunSuccesseur(affichage);
 			}
