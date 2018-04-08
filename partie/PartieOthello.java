@@ -89,7 +89,7 @@ public class PartieOthello extends Partie {
 		int x = coords[0];
 		int y = coords[1];
 		
-		while (! etat.estVide(x, y) || ! etat.successeur(x, y, couleur)) {
+		while (((EtatOthello)etat).verifBord(x, y)&&! etat.estVide(x, y) || ! etat.successeur(x, y, couleur)) {
 			System.out.println(COORDS_INVALIDES);
 			coords = entrerCoords();
 			x = coords[0];
