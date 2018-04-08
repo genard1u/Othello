@@ -15,7 +15,7 @@ import othello.partie.PartieOthello;
 
 public class JeuOthello extends Jeu {
 
-	public static final String PROFONDEUR = "Entrez une profondeur (valeur positive) ";
+	public static final String PROFONDEUR = "Entrez une profondeur (> 0) ";
 	public static final String PREMIERE_EVAL0 = "La première éval0 ";
 	public static final String SECONDE_EVAL0 = "La seconde éval0 ";
 	public static final String JOUER_OU_EVAL = "Voulez-vous jouer(0) ou faire une évaluation d'eval0(1) ? ";
@@ -45,6 +45,8 @@ public class JeuOthello extends Jeu {
 		}
 	}
 	
+	public JeuOthello(String DEBUG) {}
+	
 	private void choixEval0(Scanner sc) {
 		Eval0 e1, e2;
 		
@@ -59,7 +61,7 @@ public class JeuOthello extends Jeu {
 		do {
 		    System.out.println(PROFONDEUR);
 		    profondeur = sc.nextInt();
-		} while (profondeur < 0);
+		} while (profondeur < 1);
 		
 		System.out.println(evaluationEval0(e1, e2, profondeur));		
 	}
@@ -166,37 +168,28 @@ public class JeuOthello extends Jeu {
 		gainsCumules += eval0VsEval0(j1, j2, eval01, eval02, profondeur);
 		gainsCumules += eval0VsEval0(j1, j2, eval02, eval01, profondeur);
 		
-		if (gainsCumules > 1) {
-			gainsCumules = 1;
-		}
-		else if (gainsCumules < -1) {
-			gainsCumules = -1;
-		}
-		else {
-			gainsCumules = 0;
-		}
-		
 		return gainsCumules;
 	}	
 
 	public static void main(String[] args) {		
-		JeuOthello jeu = new JeuOthello();
+		JeuOthello jeu = new JeuOthello("DEBUG");
+		int profondeur = 4;
 		
 	    System.out.println("Eval0Othello_1 vs Eval0Othello_2 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		System.out.println("\n");
-		
-		System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), 2));
-		System.out.println("\n");
-		
-		System.out.println("Eval0Othello_2 vs Eval0Othello_3 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), 2));
-		System.out.println("\n");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), profondeur));
+		System.out.println();
 		
 		System.out.println("Eval0Othello_2 vs Eval0Othello_1 :");
-		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), 2));
-		System.out.println("\n");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_1(), profondeur));
+		System.out.println();
+		
+		/* System.out.println("Eval0Othello_1 vs Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_1(), new Eval0Othello_2(), profondeur));
+		System.out.println();
+		
+		System.out.println("Eval0Othello_2 vs Eval0Othello_3 :");
+		System.out.println(jeu.evaluationEval0(new Eval0Othello_2(), new Eval0Othello_2(), profondeur));
+		System.out.println(); */
 	}
 	
 }

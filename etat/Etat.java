@@ -71,8 +71,12 @@ public abstract class Etat {
 		float score_min = Float.MAX_VALUE;
 		float score = 0f;
 		
+		assert c >= 0;
+		
 		for (Etat e : S) {
-			score = evaluation(courant, j1, j2, c);
+			Joueur suivant = joueurSuivant(courant, j1, j2);
+			
+			score = evaluation(suivant, j1, j2, c - 1);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
@@ -130,8 +134,12 @@ public abstract class Etat {
 		float score_max = Float.MIN_VALUE;
 		float score = 0f;
 		
+		assert c >= 0;
+		
 		for (Etat e : S) {
-			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
+			Joueur suivant = joueurSuivant(courant, j1, j2);
+			
+			score = evaluation_alpha_beta(suivant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
 			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
