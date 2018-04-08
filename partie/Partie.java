@@ -23,16 +23,16 @@ public abstract class Partie {
 	
 	protected abstract void allerSurUnSuccesseur();
 	protected abstract void aucunSuccesseur(boolean affichage);
-	protected abstract void tour(int c, boolean affichage, Eval0... eval0s);	
+	protected abstract void tour(int profondeur, boolean affichage, Eval0... eval0s);	
 	protected abstract boolean estTerminee();
-	protected abstract Joueur getGagnant();
+	protected abstract Joueur gagnant();
 	
 	public Joueur lancer(int c, boolean affichage, Eval0... eval0s) {
 		while (!estTerminee()) {
 			tour(c, affichage, eval0s);
 		}
 		
-		return getGagnant();
+		return gagnant();
 	}	
 	
 }

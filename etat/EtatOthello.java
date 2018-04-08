@@ -101,9 +101,9 @@ public class EtatOthello extends Etat {
 	}
 	
 	/**
-	 * le premier joueur qui joue est celui qui a les noirs
+	 * le joueur maximisant est celui qui a les noirs
 	 */
-	public boolean estPremier(Joueur j) {
+	public boolean joueurMaximisant(Joueur j) {
 		JoueurOthello joueur = (JoueurOthello) j;
 		boolean estPremier = false;
 		
@@ -160,14 +160,16 @@ public class EtatOthello extends Etat {
 	@Override
 	public ArrayList<Etat> successeurs(Joueur j) {
 		ArrayList<Etat> successeurs = new ArrayList<Etat>();
+		JoueurOthello joueur = (JoueurOthello) j;
 		
 		for (int y = 0; y < getTaille(); y ++) {
 			for (int x = 0; x < getTaille(); x ++) {
-				if (plateau[x][y]== Pion.RIEN) {
-					if (successeur(x, y, ((JoueurOthello)j).couleur())) {
+				if (plateau[x][y] == Pion.RIEN) {
+					if (successeur(x, y, joueur.couleur())) {
 						EtatOthello e = new EtatOthello(this);
-						e.setPion(x, y, ((JoueurOthello)j).couleur());
-						e.retourner(x, y,((JoueurOthello)j).couleur());
+						
+						e.setPion(x, y, joueur.couleur());
+						e.retourner(x, y, joueur.couleur());
 						successeurs.add(e);
 					}
 				}
@@ -181,11 +183,11 @@ public class EtatOthello extends Etat {
 		for (int i = -1; i < 2; i ++) {
 			for (int j = -1; j < 2; j ++) {
 				if (verifBord(x, y)) {
-					if (verifBord(x+i, y+j) && plateau[x+i][y+j]!= p && plateau[x+i][y+j]!= Pion.RIEN){
+					if (verifBord(x+i, y+j) && plateau[x+i][y+j] != p && plateau[x+i][y+j] != Pion.RIEN) {
 						int cx = x + i, cy = y + j;
 						int[] r = verifOuRetourn(0,cx,cy,i,j,p);
 						
-						if (((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) && plateau[r[0]][r[1]]==p) {
+						if (((r[0]>=0) && (r[1]>=0) && (r[0]<T) && (r[1]<T)) && plateau[r[0]][r[1]] == p) {
 							 r = verifOuRetourn(1,r[0],r[1],i,j,p);
 						}
 					}
@@ -295,7 +297,7 @@ public class EtatOthello extends Etat {
 		int jetons = 0;
 		
 		for (int i = 0; i < T; i ++) {
-			for (int j = 0; j < T; j++) {
+			for (int j = 0; j < T; j ++) {
 				if (plateau[i][j] == couleur) {
 					jetons ++;
 				}

@@ -46,7 +46,7 @@ public abstract class Etat {
 		eval0 = eval;
 	}
 	
-	public abstract boolean estPremier(Joueur j);
+	public abstract boolean joueurMaximisant(Joueur j);
 	public abstract float valeurFinDePartie();
 	
 	public Joueur joueurSuivant(Joueur courant, Joueur j1, Joueur j2) {
@@ -59,7 +59,7 @@ public abstract class Etat {
 			suivant = j1;
 		}
 		
-		assert false;
+		assert suivant != null;
 		
 		return suivant;
 	}
@@ -74,7 +74,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation(courant, j1, j2, c);
 			
-			if (estPremier(courant)) {
+			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score ;
@@ -103,7 +103,7 @@ public abstract class Etat {
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
 		
-		if (estPremier(courant)) {
+		if (joueurMaximisant(courant)) {
 			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {
@@ -133,7 +133,7 @@ public abstract class Etat {
 		for (Etat e : S) {
 			score = evaluation_alpha_beta(courant, j1, j2, c, Float.MIN_VALUE, Float.MAX_VALUE);
 			
-			if (estPremier(courant)) {
+			if (joueurMaximisant(courant)) {
 				if (score >= score_max) {
 					eSortie = e;
 					score_max = score;
@@ -162,7 +162,7 @@ public abstract class Etat {
 		Joueur suivant = joueurSuivant(courant, j1, j2);
 		ArrayList<Etat> S = successeurs(courant);
 		
-		if (estPremier(courant)) {
+		if (joueurMaximisant(courant)) {
 			float score_max = Float.MIN_VALUE;
 			
 			for (Etat e : S) {

@@ -109,7 +109,7 @@ public class PartieOthello extends Partie {
 		}
 	}
 	
-	protected void tour(int c, boolean affichage, Eval0... eval0s) {
+	protected void tour(int profondeur, boolean affichage, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
 		
 		if (joueurCourant.estHumain()) {
@@ -136,7 +136,7 @@ public class PartieOthello extends Partie {
 				}
 			}
 			
-			Etat e = etat.minimax_alpha_beta(joueurCourant, j1, j2, c);
+			Etat e = etat.minimax_alpha_beta(joueurCourant, j1, j2, profondeur);
 			
 			if (e == null) {
 				aucunSuccesseur(affichage);
@@ -170,11 +170,12 @@ public class PartieOthello extends Partie {
 	/**
 	 * @return joueur gagnant (null s'il n'y en a aucun)
 	 */
-	public Joueur getGagnant() {	
+	public Joueur gagnant() {	
 		JoueurOthello j1 = j1(), j2 = j2();
 		JoueurOthello gagnant = null;
 		float gains = etat.valeurFinDePartie();
 		
+		assert estTerminee() == true;
 		assert j1.couleur() != j2.couleur();
 		
 		if (gains == Float.MAX_VALUE) {
