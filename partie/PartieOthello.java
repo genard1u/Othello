@@ -21,7 +21,7 @@ public class PartieOthello extends Partie {
 	private final static String AUCUN_SUCCESSEUR = "Vous ne pouvez plus placer de pion !";
 	
 	private int passeSonTour;
-	
+	private Eval0 eval0;
 	
 	public PartieOthello(Joueur un, Joueur deux) {
 		super(un, deux);
@@ -91,7 +91,7 @@ public class PartieOthello extends Partie {
 	
 	protected void tour(int c,boolean aff, Eval0... eval0s) {
 		ArrayList<Etat> succ = etat.successeurs(joueurCourant);
-		if ( joueurCourant.estHumain){
+		if ( joueurCourant.estHumain()){
 			System.out.println(etat.toString());
 			
 			if (succ.size() > 0) {
@@ -111,7 +111,7 @@ public class PartieOthello extends Partie {
 					setEval0(eval0s[1]);
 				}
 			}
-			Etat e = etat.minimax_alpha_beta(joueurCourant, c);
+			Etat e = etat.minimax(joueurCourant,j1,j2, c);
 			if (e == null) {
 				aucunSuccesseur( aff);
 			}
@@ -160,7 +160,7 @@ public class PartieOthello extends Partie {
 			joueurCourant = j1;
 		}
 		
-		if (joueurCourant.estHumain && aff){
+		if (joueurCourant.estHumain() && aff){
 			System.out.println(AU_SUIVANT);
 		}	
 	}
